@@ -11,6 +11,7 @@ import PopularVehicles from "@/app/components/home/home-5/PopularVehicles";
 import Footer from "@/app/components/common/Footer";
 import Blog from "@/app/components/common/Blog";
 import Counter from "@/app/components/home/home-5/Counter";
+import React from "react";
 
 export const metadata = {
   title: "Home-5 || Voiture - Automotive & Car Dealer NextJS Template",

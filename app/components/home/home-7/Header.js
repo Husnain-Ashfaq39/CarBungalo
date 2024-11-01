@@ -2,6 +2,7 @@ import Link from "next/link";
 import MainMenu from "../../common/MainMenu";
 import Image from "next/image";
 import LoginSignupModal from "../../common/login-signup";
+import React from "react";
 
 const Header = () => {
   return (
@@ -58,7 +59,7 @@ const Header = () => {
 
           <ul className="ace-responsive-menu menu_list_custom_code wa text-end">
             <li className="add_listing">
-              <Link href="/add-listings">+ Add Listing</Link>
+              <Link href="/add-listings">+ Build Your Car</Link>
             </li>
             <li>
               <a href="#" data-bs-toggle="modal" data-bs-target="#logInModal">

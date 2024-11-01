@@ -6,7 +6,7 @@ import HeaderSidebar from "@/app/components/common/HeaderSidebar";
 import MobileMenu from "@/app/components/common/MobileMenu";
 import LoginSignupModal from "@/app/components/common/login-signup";
 import CarItems from "@/app/components/dashboard/favourites/CarItems";
-
+import React from "react";
 export const metadata = {
   title: "Favourites || Voiture - Automotive & Car Dealer NextJS Template",
 };
@@ -24,9 +24,7 @@ const Favourites = () => {
       </div>
       {/* Sidebar Panel End */}
 
-      {/* header top */}
-      <DashboardHeaderTop />
-      {/* End header top */}
+    
 
       {/* Main Header Nav */}
       <DashboardHeader />

@@ -9,6 +9,7 @@ import AccountDetails from "@/app/components/dashboard/profile/AccountDetails";
 import ChangePassword from "@/app/components/dashboard/profile/ChangePassword";
 import Gallery from "@/app/components/dashboard/profile/Gallery";
 import SocialNetwork from "@/app/components/dashboard/profile/SocialNetwork";
+import React from "react";
 
 export const metadata = {
   title:
@@ -29,7 +30,7 @@ const Profile = () => {
       {/* Sidebar Panel End */}
 
       {/* header top */}
-      <DashboardHeaderTop />
+      {/* <DashboardHeaderTop /> */}
       {/* End header top */}
 
       {/* Main Header Nav */}

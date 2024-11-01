@@ -3,7 +3,7 @@ import listingsData from "@/data/listingCar";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-
+import React from "react";
 const FeaturedFilterListing = () => {
   const [filter, setFilter] = useState("*");
 
@@ -27,14 +27,9 @@ const FeaturedFilterListing = () => {
           className={filter === "new" ? "active nav-link" : "nav-link"}
           onClick={() => setFilter("new")}
         >
-          New Cars
+        Trending
         </button>
-        <button
-          className={filter === "used" ? "active nav-link" : "nav-link"}
-          onClick={() => setFilter("used")}
-        >
-          Used Cars
-        </button>
+      
       </div>
       {/* Tab panes */}
       <div className="row">

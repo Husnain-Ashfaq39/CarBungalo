@@ -48,7 +48,7 @@ const Hero = () => {
                       <div className="wrapper text-center">
                         <h2 className="title">
                           <Link href="/listing-single-v1">
-                            Mercedes-Benz S 560 - 2021
+                          Turn Your Van into 
                           </Link>
                         </h2>
                         <h3 className="subtitle text-thm">
@@ -65,20 +65,20 @@ const Hero = () => {
                               alt="img"
                             />
                           </span>
-                          <span>$746</span> <small>/ Month</small>
+                          Perfect Holiday Home
                         </h3>
                         <div className="d-flex justify-content-center">
                           <Link
                             className="btn btn1 btn-thm2 mr20"
                             href="/listing-single-v2"
                           >
-                            Test Drive
+                            Get a Quote
                           </Link>
                           <Link
                             className="btn btn2 btn-thm"
                             href="/listing-single-v3"
                           >
-                            Learn More
+                            See Results
                           </Link>
                         </div>
                       </div>

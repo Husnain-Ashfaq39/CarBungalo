@@ -1,5 +1,4 @@
 import DashboardHeader from "@/app/components/common/DashboardHeader";
-import DashboardHeaderTop from "@/app/components/common/DashboardHeaderTop";
 import DashboardSidebarMenu from "@/app/components/common/DashboardSidebarMenu";
 import DashboardSidebarMobileMenu from "@/app/components/common/DashboardSidebarMobileMenu";
 import HeaderSidebar from "@/app/components/common/HeaderSidebar";
@@ -8,6 +7,7 @@ import LoginSignupModal from "@/app/components/common/login-signup";
 import ChatInbox from "@/app/components/dashboard/messages/ChatInbox";
 import MessageBodyContent from "@/app/components/dashboard/messages/MessageBodyContent";
 import SearchBox from "@/app/components/dashboard/messages/SearchBox";
+import React from "react";
 
 export const metadata = {
   title: "Messages || Voiture - Automotive & Car Dealer NextJS Template",
@@ -26,9 +26,7 @@ const Messages = () => {
       </div>
       {/* Sidebar Panel End */}
 
-      {/* header top */}
-      <DashboardHeaderTop />
-      {/* End header top */}
+   
 
       {/* Main Header Nav */}
       <DashboardHeader />

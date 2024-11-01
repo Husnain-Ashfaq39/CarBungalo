@@ -11,11 +11,15 @@ import HeroFilter from "@/app/components/home/home-7/HeroFilter";
 import Partner from "@/app/components/home/home-7/Partner";
 import Testimonial from "@/app/components/home/home-7/Testimonial";
 import Link from "next/link";
+import React from "react";
+
+
 
 export const metadata = {
   title: "Home-7 || Voiture - Automotive & Car Dealer NextJS Template",
   description: `Voiture - Automotive & Car Dealer NextJS Template. `,
 };
+
 
 const Home_7 = () => {
   return (
@@ -41,7 +45,7 @@ const Home_7 = () => {
       {/* Hero Section */}
       <section className="home-one home-seven bg_home7_style">
         <div className="container-fluid">
-          <HeroFilter />
+         
           <Hero />
         </div>
       </section>
@@ -107,7 +111,7 @@ const Home_7 = () => {
           <div className="row justify-content-center">
             <div className="col-lg-8">
               <div className="main-title text-center">
-                <h2>Featured Listings</h2>
+                <h2>Buy Parts</h2>
               </div>
             </div>
           </div>
@@ -123,8 +127,8 @@ const Home_7 = () => {
           <div className="row mt20">
             <div className="col-lg-12">
               <div className="text-center">
-                <Link href="/listing-v1" className="more_listing">
-                  Show All Cars{" "}
+                <Link href="/shop" className="more_listing">
+                  Show All Parts{" "}
                   <span className="icon">
                     <span className="fas fa-plus" />
                   </span>
@@ -141,16 +145,16 @@ const Home_7 = () => {
       <section className="testimonials_home7 pt0">
         <div className="container">
           <div className="row">
-            <div className="col-lg-4">
+            {/* <div className="col-lg-4">
               <div className="partner_grid mb30-md">
                 <div className="row">
                   <Partner />
                 </div>
               </div>
-            </div>
+            </div> */}
             {/* End .col-lg-4  */}
 
-            <div className="col-lg-8">
+            <div className="">
               <div className="home7_testimonials_box pl0-md">
                 <h2 className="title">Our Testimonials</h2>
                 {/* Swiper */}
@@ -168,7 +172,7 @@ const Home_7 = () => {
       {/* End Brand and Testimonials */}
 
       {/* Our Apps */}
-      <AppSection />
+      {/* <AppSection /> */}
       {/* End Our Apps */}
 
       {/* Our Footer */}

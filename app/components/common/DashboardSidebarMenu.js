@@ -18,19 +18,9 @@ const DashboardSidebarMenu = () => {
             path: "/profile",
         },
         {
-            icon: "flaticon-list",
-            label: "My Listing",
-            path: "/my-listing",
-        },
-        {
             icon: "flaticon-heart",
             label: "Favorites",
             path: "/favourites",
-        },
-        {
-            icon: "flaticon-plus",
-            label: "Add Listing",
-            path: "/add-listings",
         },
         {
             icon: "flaticon-message",

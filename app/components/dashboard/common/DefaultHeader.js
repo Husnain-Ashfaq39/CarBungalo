@@ -1,6 +1,8 @@
 import Link from "next/link";
 import MainMenu from "./MainMenu";
 import Image from "next/image";
+import React from "react";
+
 
 const DefaultHeader = () => {
   return (
@@ -40,7 +42,7 @@ const DefaultHeader = () => {
           >
             <MainMenu />
             <li className="add_listing">
-              <Link href="/add-listings">+ Add Listing</Link>
+              <Link href="/add-listings">+ Build your Car</Link>
             </li>
             <li
               className="sidebar_panel"

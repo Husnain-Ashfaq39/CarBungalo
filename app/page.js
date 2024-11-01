@@ -1,10 +1,11 @@
-import Home_1 from "./(home)/home-1/page";
+
 import Home_7 from "./(home)/home-7/page";
 import Wrapper from "./layout/wrapper";
-
+import React from "react";
+import './global.css'
 export const metadata = {
-  title: "Home-1 || Voiture - Automotive & Car Dealer NextJS Template",
-  description: `Voiture - Automotive & Car Dealer NextJS Template. `,
+  title: "Car Bungalo",
+  description: `Car Customization Platform `,
 };
 
 export default function MainRoot() {

@@ -1,9 +1,10 @@
+import React from "react";
 const Card = () => {
   const cards = [
     {
       icon: "flaticon-list",
-      timer: "1260",
-      para: "Total Listing",
+      timer: "126",
+      para: "My Orders",
       className: "ff_one",
     },
     {

@@ -3,27 +3,27 @@ import Link from "next/link";
 
 const categories = [
   {
-    img: "/images/category-item/1.png",
+    img: "https://t4.ftcdn.net/jpg/07/22/02/93/360_F_722029388_pwAp3uJgEgJ1LTHBeUwg1YgD6vkBV12R.jpg",
     title: "Compact",
     listing: "16,869",
   },
   {
-    img: "/images/category-item/2.png",
+    img: "https://t4.ftcdn.net/jpg/07/22/02/93/360_F_722029388_pwAp3uJgEgJ1LTHBeUwg1YgD6vkBV12R.jpg",
     title: "Sedan",
     listing: "16,869",
   },
   {
-    img: "/images/category-item/3.png",
+    img: "https://t4.ftcdn.net/jpg/07/22/02/93/360_F_722029388_pwAp3uJgEgJ1LTHBeUwg1YgD6vkBV12R.jpg",
     title: "SUV",
     listing: "16,869",
   },
   {
-    img: "/images/category-item/4.png",
+    img: "https://t4.ftcdn.net/jpg/07/22/02/93/360_F_722029388_pwAp3uJgEgJ1LTHBeUwg1YgD6vkBV12R.jpg",
     title: "Convertible",
     listing: "16,869",
   },
   {
-    img: "/images/category-item/5.png",
+    img: "https://t4.ftcdn.net/jpg/07/22/02/93/360_F_722029388_pwAp3uJgEgJ1LTHBeUwg1YgD6vkBV12R.jpg",
     title: "Coupe",
     listing: "16,869",
   },
@@ -54,7 +54,7 @@ const Category = () => {
               <p className="title">
                 <Link href="/listing-single-v2">{category.title}</Link>
               </p>
-              <p className="para">{category.listing} Listings</p>
+              {/* <p className="para">{category.listing} Listings</p> */}
             </div>
           </div>
         </div>

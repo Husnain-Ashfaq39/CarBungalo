@@ -15,6 +15,7 @@ import ReviewBox from "@/app/components/user-profile/ReviewBox";
 import BreadCrumb from "@/app/components/user-profile/BreadCrumb";
 import ShoppingProductTabs from "@/app/components/user-profile/ShoppingProductTabs";
 import Image from "next/image";
+import React from "react";
 
 export const metadata = {
   title: "User Profile || Voiture - Automotive & Car Dealer NextJS Template",

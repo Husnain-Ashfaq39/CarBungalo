@@ -8,7 +8,7 @@ import LoginSignupModal from "@/app/components/common/login-signup";
 import Card from "@/app/components/dashboard/dash-board/Card";
 import ChartMain from "@/app/components/dashboard/dash-board/ChartMain";
 import RecenActivity from "@/app/components/dashboard/dash-board/RecenActivity";
-
+import React from "react";
 export const metadata = {
   title: "Dashboard Home || Voiture - Automotive & Car Dealer NextJS Template",
 };
@@ -27,7 +27,7 @@ const Dashboard = () => {
       {/* Sidebar Panel End */}
 
       {/* header top */}
-      <DashboardHeaderTop />
+      {/* <DashboardHeaderTop /> */}
       {/* End header top */}
 
       {/* Main Header Nav */}
@@ -63,7 +63,7 @@ const Dashboard = () => {
               <div className="row">
                 <div className="col-xl-8">
                   <div className="breadcrumb_content mb50">
-                    <h2 className="breadcrumb_title">Hello, Cameron!</h2>
+                    <h2 className="breadcrumb_title">Hello, Husnain!</h2>
                     <p>Ready to jump back in!</p>
                   </div>
                 </div>
@@ -78,18 +78,18 @@ const Dashboard = () => {
               <div className="row">
                 <div className="col-lg-12 col-xl-7">
                   <div className="application_statics">
-                    <h4 className="mb-4">Your Profile Views</h4>
+                    <h4 className="mb-4">Orders Chart</h4>
                     <ChartMain />
                   </div>
                 </div>
                 {/* End .col-lg-12 col-xl-7 */}
 
-                <div className="col-xl-5">
+                {/* <div className="col-xl-5">
                   <div className="recent_job_activity">
                     <h4 className="title">Recent Activities</h4>
                     <RecenActivity />
                   </div>
-                </div>
+                </div> */}
                 {/* End .col-xl-5 */}
               </div>
             </div>

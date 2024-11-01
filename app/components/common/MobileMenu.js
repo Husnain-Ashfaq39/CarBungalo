@@ -4,6 +4,7 @@ import { isParentActive } from "@/utils/isMenuActive";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import React from "react";
 import {
     ProSidebarProvider,
     Sidebar,
@@ -11,6 +12,7 @@ import {
     MenuItem,
     SubMenu,
 } from "react-pro-sidebar";
+
 
 const MobileMenu = () => {
     const path = usePathname();
@@ -139,7 +141,7 @@ const MobileMenu = () => {
                                         }
                                         label={item.label}
                                     >
-                                        {item.subMenu.map((subItem, subIndex) =>
+                                        {item?.subMenu?.map((subItem, subIndex) =>
                                             subItem.subMenu ? (
                                                 <SubMenu
                                                     key={subIndex}

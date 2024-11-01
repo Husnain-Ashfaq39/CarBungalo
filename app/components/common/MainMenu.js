@@ -3,6 +3,7 @@ import menuItems from "@/data/menuItems";
 import { isParentActive } from "@/utils/isMenuActive";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import React from "react";
 
 const MainMenu = () => {
     const path = usePathname();
@@ -23,7 +24,7 @@ const MainMenu = () => {
                         <span className="arrow"></span>
                     </a>
                     <ul className="sub-menu">
-                        {menuItem.subMenu.map((subItem, subIndex) => (
+                        {menuItem?.subMenu?.map((subItem, subIndex) => (
                             <li key={subIndex} className="dropitem">
                                 {subItem.subMenu ? (
                                     <>
