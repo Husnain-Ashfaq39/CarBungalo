@@ -13,12 +13,12 @@ const CopyRight = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span style={{ color: "rgba(26, 55, 96, 0.7)" }}>
+                <span href="https://www.syntax-ai.tech/" style={{ color: "rgba(26, 55, 96, 0.7)" }}>
                   {" "}
-                  ib-themes
+                  Powered By Syntax
                 </span>
               </a>{" "}
-              © {new Date().getFullYear()}. All Rights Reserved.
+              © {new Date().getFullYear()}. All Rights Reserved. 
             </p>
           </div>
         </div>

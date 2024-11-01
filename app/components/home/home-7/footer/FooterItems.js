@@ -1,3 +1,4 @@
+import React from "react";
 const FooterItems = () => {
     return (
         <div className="row">
@@ -18,7 +19,7 @@ const FooterItems = () => {
                 <div className="footer_contact_widget home2">
                     <h5 className="title">NEED HELP</h5>
                     <div className="footer_phone">+1 670 936 46 70</div>
-                    <p>hello@voiture.com</p>
+                    <p>hello@CarBungalo.com</p>
                 </div>
             </div>
             {/* End .col */}

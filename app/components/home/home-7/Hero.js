@@ -10,17 +10,17 @@ import Link from "next/link";
 const Hero = () => {
   const carSlides = [
     {
-      image: "/images/home/slide1_home7.png",
+      image: "/images/home/hero2.png",
       title: "Audi A8 L 55",
       price: "$746",
     },
     {
-      image: "/images/home/slide1_home7.png",
+      image: "/images/home/hero1.png",
       title: "Audi A8 L 55",
       price: "$865",
     },
     {
-      image: "/images/home/slide1_home7.png",
+      image: "/images/home/hero2.png",
       title: "BMW M8 Gran Coupe",
       price: "$976",
     },
@@ -48,7 +48,7 @@ const Hero = () => {
                       <div className="wrapper text-center">
                         <h2 className="title">
                           <Link href="/listing-single-v1">
-                          Turn Your Van into 
+                            Turn Your Van into
                           </Link>
                         </h2>
                         <h3 className="subtitle text-thm">
@@ -85,13 +85,15 @@ const Hero = () => {
                       <div className="thumb">
                         <Image
                           width={850}
+                          key={index}
+                          data-aos="fade-up"
                           height={335}
                           style={{
                             objectFit: "cover",
                             width: "100%",
                             height: "100%",
                           }}
-                          src="/images/home/slide1_home7.png"
+                          src={slide.image}
                           alt="car large"
                         />
                       </div>

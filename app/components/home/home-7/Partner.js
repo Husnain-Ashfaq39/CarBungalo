@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+import React from "react";
 const partners = [
   { imgPath: "/images/partners/1.png", delay: 100 },
   { imgPath: "/images/partners/2.png", delay: 300 },

@@ -3,7 +3,7 @@ import CopyRight from "./footer/CopyRight";
 import FooterItems from "./footer/FooterItems";
 import Navigation from "./footer/Navigation";
 import CallToAction from "./CallToAction";
-
+import React from "react";
 const Footer = () => {
   return (
     <section className="footer_one home7_style pt0 pb40">
@@ -13,12 +13,13 @@ const Footer = () => {
           <div className="col-md-4 col-xl-7">
             <div className="footer_about_widget text-start">
               <div className="logo mb40 mb0-sm">
-                <Image
+                {/* <Image
                   width={140}
                   height={45}
                   src="/images/header-logo2.svg"
                   alt="header-logo.png"
-                />
+                /> */}
+               Show Logo Here
               </div>
             </div>
           </div>
