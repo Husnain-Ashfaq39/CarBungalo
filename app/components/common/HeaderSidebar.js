@@ -26,7 +26,7 @@ const HeaderSidebar = () => {
                 <div className="footer_contact_widget">
                     <h5 className="title">CONTACT</h5>
                     <div className="footer_phone">+1 670 936 46 70</div>
-                    <p>hello@voiture.com</p>
+                    <p>hello@CarBungalo.com</p>
                 </div>
                 {/* End widget */}
 

@@ -16,8 +16,8 @@ import React from "react";
 
 
 export const metadata = {
-  title: "Home-7 || Voiture - Automotive & Car Dealer NextJS Template",
-  description: `Voiture - Automotive & Car Dealer NextJS Template. `,
+  title: "Car Bungalo",
+  description: `Car Bungalo`,
 };
 
 

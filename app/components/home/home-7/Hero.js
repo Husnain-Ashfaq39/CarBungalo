@@ -85,7 +85,7 @@ const Hero = () => {
                       <div className="thumb">
                         <Image
                           width={850}
-                          key={index}
+                         
                           data-aos="fade-up"
                           height={335}
                           style={{
