@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 "use client";
 import Aos from "aos";
 import { useEffect } from "react";
@@ -6,6 +7,7 @@ import "aos/dist/aos.css";
 import "../public/scss/main.scss";
 import ScrollToTop from "./components/common/ScrollTop";
 import styled from "styled-components";
+import React from "react";
 
 if (typeof window !== "undefined") {
   import("bootstrap");

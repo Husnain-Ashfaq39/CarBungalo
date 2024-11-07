@@ -43,7 +43,7 @@ const Home_7 = () => {
       {/* End Main Header Nav For Mobile */}
 
       {/* Hero Section */}
-      <section className="home-one home-seven bg_home7_style">
+      <section className="home-one home-seven bg_home7_style pt-28">
         <div className="container-fluid">
          
           <Hero />
@@ -142,7 +142,7 @@ const Home_7 = () => {
       {/* End Featured Product  */}
 
       {/* Brand and Testimonials */}
-      <section className="testimonials_home7 pt0">
+      <section className="testimonials_home7 pt0 my-20">
         <div className="container">
           <div className="row">
             {/* <div className="col-lg-4">
@@ -154,15 +154,15 @@ const Home_7 = () => {
             </div> */}
             {/* End .col-lg-4  */}
 
-            <div className="">
-              <div className="home7_testimonials_box pl0-md">
+           
+              <div className="home7_testimonials_box pl0-md ">
                 <h2 className="title">Our Testimonials</h2>
                 {/* Swiper */}
                 <div className="testimonial_swiper_slider_home4_style">
                   <Testimonial />
                 </div>
               </div>
-            </div>
+            
             {/* End .col-lg-8 */}
           </div>
           {/* End .row */}
