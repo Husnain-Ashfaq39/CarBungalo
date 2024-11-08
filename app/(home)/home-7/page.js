@@ -1,7 +1,7 @@
 import HeaderSidebar from "@/app/components/common/HeaderSidebar";
 import MobileMenu from "@/app/components/common/MobileMenu";
 import WhyChoose from "@/app/components/common/WhyChoose";
-import AppSection from "@/app/components/home/home-7/AppSection";
+
 import Category from "@/app/components/home/home-7/Category";
 import FeaturedFilterListing from "@/app/components/home/home-7/FeaturedFilterListing";
 import Footer from "@/app/components/home/home-7/Footer";
