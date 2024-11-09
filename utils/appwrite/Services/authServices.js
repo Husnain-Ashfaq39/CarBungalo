@@ -34,25 +34,12 @@ export const signIn = async (email, password) => {
     localStorage.setItem("authToken", session.$id);
     localStorage.setItem("userId", session.userId);
 
-    // Get user roles
-    const userRoles = await getUserRoles(session.userId);
-    console.log('Roles assigned to user:', userRoles); // Debugging statement
-
-    if (!userRoles || userRoles.length === 0) {
-      // Delete session if no roles assigned
-      await account.deleteSession(session.$id);
-      localStorage.removeItem("authToken");
-      localStorage.removeItem("userId");
-      throw new Error("User has no roles assigned.");
-    }
-
-    // Store user roles
-    localStorage.setItem("userRoles", JSON.stringify(userRoles));
+ 
 
     return {
       session,
       userId: session.userId,
-      roles: userRoles,
+     
     };
   } catch (error) {
     console.error("Login error:", error);
