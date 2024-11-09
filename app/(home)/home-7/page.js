@@ -1,29 +1,19 @@
 import HeaderSidebar from "@/app/components/common/HeaderSidebar";
 import MobileMenu from "@/app/components/common/MobileMenu";
 import WhyChoose from "@/app/components/common/WhyChoose";
-
 import Category from "@/app/components/home/home-7/Category";
 import FeaturedFilterListing from "@/app/components/home/home-7/FeaturedFilterListing";
 import Footer from "@/app/components/home/home-7/Footer";
 import Header from "@/app/components/home/home-7/Header";
 import Hero from "@/app/components/home/home-7/Hero";
-import HeroFilter from "@/app/components/home/home-7/HeroFilter";
-import Partner from "@/app/components/home/home-7/Partner";
 import Testimonial from "@/app/components/home/home-7/Testimonial";
 import Link from "next/link";
 import React from "react";
 
 
-
-export const metadata = {
-  title: "Car Bungalo",
-  description: `Car Bungalo`,
-};
-
-
 const Home_7 = () => {
   return (
-    <div className="wrapper ovh">
+    <div className="wrapper ovh ">
       <div
         className="offcanvas offcanvas-end"
         tabIndex="-1"

@@ -8,7 +8,7 @@ import "../public/scss/main.scss";
 import ScrollToTop from "./components/common/ScrollTop";
 import styled from "styled-components";
 import React from "react";
-
+import './global.css'
 if (typeof window !== "undefined") {
   import("bootstrap");
 }

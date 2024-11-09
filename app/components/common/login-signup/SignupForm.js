@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -31,11 +31,16 @@ const SignupForm = () => {
       confirmPassword: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      // Handle form submission
-      console.log("Form Data", values);
-      registerUser(values.username, values.email, values.password)
-      // You can replace this with an API call or other logic
+    onSubmit: async (values, { setSubmitting, setErrors }) => {
+      try {
+        console.log("Form Data", values);
+        await registerUser(values.username, values.email, values.password);
+      } catch (error) {
+        console.error("Registration error:", error);
+        setErrors({ submit: error.message || "Registration failed" });
+      } finally {
+        setSubmitting(false);
+      }
     },
   });
 
@@ -52,10 +57,11 @@ const SignupForm = () => {
               id="username"
               name="username"
               type="text"
-              className={`form-control ${formik.touched.username && formik.errors.username
+              className={`form-control ${
+                formik.touched.username && formik.errors.username
                   ? "is-invalid"
                   : ""
-                }`}
+              }`}
               placeholder="Username"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -77,8 +83,11 @@ const SignupForm = () => {
               id="email"
               name="email"
               type="email"
-              className={`form-control ${formik.touched.email && formik.errors.email ? "is-invalid" : ""
-                }`}
+              className={`form-control ${
+                formik.touched.email && formik.errors.email
+                  ? "is-invalid"
+                  : ""
+              }`}
               placeholder="Email"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -100,10 +109,11 @@ const SignupForm = () => {
               id="password"
               name="password"
               type="password"
-              className={`form-control ${formik.touched.password && formik.errors.password
+              className={`form-control ${
+                formik.touched.password && formik.errors.password
                   ? "is-invalid"
                   : ""
-                }`}
+              }`}
               placeholder="Password"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -125,10 +135,11 @@ const SignupForm = () => {
               id="confirmPassword"
               name="confirmPassword"
               type="password"
-              className={`form-control ${formik.touched.confirmPassword && formik.errors.confirmPassword
+              className={`form-control ${
+                formik.touched.confirmPassword && formik.errors.confirmPassword
                   ? "is-invalid"
                   : ""
-                }`}
+              }`}
               placeholder="Confirm Password"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -143,8 +154,17 @@ const SignupForm = () => {
         </div>
       </div>
 
-      <button type="submit" className="btn btn-signup btn-thm mb0">
-        Sign Up
+      {/* Display submission errors */}
+      {formik.errors.submit && (
+        <div className="error-message">{formik.errors.submit}</div>
+      )}
+
+      <button
+        type="submit"
+        className="btn btn-signup btn-thm mb0"
+        disabled={formik.isSubmitting}
+      >
+        {formik.isSubmitting ? "Signing Up..." : "Sign Up"}
       </button>
     </form>
   );
