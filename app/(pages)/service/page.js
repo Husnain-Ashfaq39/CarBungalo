@@ -1,19 +1,83 @@
-import Footer from "@/app/components/common/Footer";
+// src/app/pages/service/Service.jsx
+"use client"
+import React, { useEffect, useState } from "react";
+import Footer from "@/app/components/home/home-7/Footer";
 import DefaultHeader from "../../components/common/DefaultHeader";
 import HeaderSidebar from "../../components/common/HeaderSidebar";
-import HeaderTop from "../../components/common/HeaderTop";
 import MobileMenu from "../../components/common/MobileMenu";
 import LoginSignupModal from "@/app/components/common/login-signup";
-import ListWithImage from "@/app/components/pages/service/ListWithImage";
 import ServiceBlock from "@/app/components/pages/service/ServiceBlock";
-import ScheduleService from "@/app/components/pages/service/ScheduleService";
-import ServiceHours from "@/app/components/pages/service/ServiceHours";
-
-export const metadata = {
-  title: "Service || Voiture - Automotive & Car Dealer NextJS Template",
-};
+import db from "@/utils/appwrite/Services/dbServices"; // Adjust the import path as needed
+import storageServices from "@/utils/appwrite/Services/storageServices"; // Adjust the import path as needed
 
 const Service = () => {
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        
+        // Fetch all services from the Services collection
+        const servicesData = await db.Services.list();
+
+        // For each service, fetch the image URL from storage
+        const servicesWithImages = await Promise.all(
+          servicesData.documents.map(async (service) => {
+            try {
+              const file = await storageServices.images.getFileDownload(service.image_id);
+              // Assuming getFileDownload returns an object with a `href` property
+              console.log('this is file '+file);
+              
+              const imageUrl = file; 
+              return { ...service, imageUrl };
+            } catch (imgError) {
+              console.error(`Error fetching image for service ${service.$id}:`, imgError);
+              return { ...service, imageUrl: "/images/default-service.jpg" }; // Fallback image
+            }
+          })
+        );
+        setLoading(false);
+
+        setServices(servicesWithImages);
+      } catch (err) {
+        console.error("Error fetching services:", err);
+        setError("Failed to load services.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchServices();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="wrapper">
+        <DefaultHeader />
+        <MobileMenu />
+        <div className="container text-center my-5">
+          <p>Loading services...</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="wrapper">
+        <DefaultHeader />
+        <MobileMenu />
+        <div className="container text-center my-5">
+          <p>{error}</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="wrapper">
       <div
@@ -26,10 +90,6 @@ const Service = () => {
       </div>
       {/* Sidebar Panel End */}
 
-      {/* header top */}
-      <HeaderTop />
-      {/* End header top */}
-
       {/* Main Header Nav */}
       <DefaultHeader />
       {/* End Main Header Nav */}
@@ -38,7 +98,7 @@ const Service = () => {
       <MobileMenu />
       {/* End Main Header Nav For Mobile */}
 
-      {/* <!-- Inner Page Breadcrumb --> */}
+      {/* Inner Page Breadcrumb */}
       <section className="inner_page_breadcrumb style2 bgc-f9 bt1">
         <div className="container">
           <div className="row">
@@ -59,53 +119,13 @@ const Service = () => {
           </div>
         </div>
       </section>
-      {/* <!-- Inner Page Breadcrumb --> */}
 
       {/* Service Section Area */}
-      <section className="our-service bgc-f9 pb90 pt0">
-        <div className="container">
-          <ListWithImage />
-        </div>
-      </section>
-      {/* End Service Section Area */}
+      <div className="container">
+        <ServiceBlock services={services} />
+      </div>
+      <div style={{ height: "100px" }}></div>
 
-      {/* Service Section Area */}
-      <section className="our-service">
-        <div className="container">
-          <ServiceBlock />
-        </div>
-      </section>
-      {/* Service Section Area */}
-
-      {/* Service Forms Section Area */}
-      <section className="service-forms bgc-f9">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-7 col-xl-8">
-              <div className="service_form mb30-sm">
-                <h5 className="title">Schedule Service</h5>
-                <ScheduleService />
-              </div>
-            </div>
-            {/* End .col */}
-
-            <div className="col-md-5 col-xl-4">
-              <div className="opening_hour_widgets">
-                <div className="wrapper">
-                  <h4 className="title">Opening hours</h4>
-                  <ServiceHours />
-                </div>
-              </div>
-            </div>
-            {/* End .col */}
-          </div>
-          {/* End .row */}
-        </div>
-        {/* End .container */}
-      </section>
-      {/* End Service Forms Section Area */}
-
-      {/* Our Footer */}
       <Footer />
       {/* End Our Footer */}
 

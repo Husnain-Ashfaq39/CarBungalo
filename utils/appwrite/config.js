@@ -8,11 +8,10 @@ const databaseId = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID;
 
 // Initialize the Appwrite client only on the client side
 let client;
-if (typeof window !== "undefined") {
   client = new Client()
     .setEndpoint(endpoint) // Set your Appwrite Endpoint
     .setProject(projectID); // Set your project ID
-}
+
 
 // Export Appwrite services for client-side use
 export const account = client ? new Account(client) : null;

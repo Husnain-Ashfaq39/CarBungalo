@@ -1,3 +1,4 @@
+// src/services/storageServices.js
 import { buckets } from "../buckets";
 import { storage } from "../config"; // Ensure you have initialized Appwrite client and storage service
 import { ID } from "appwrite";
@@ -13,8 +14,9 @@ buckets.forEach((bucket) => {
 
     getFile: async (id) => await storage.getFile(bucket.id, id),
 
-    // Remove async/await here
-    getFileDownload: (id) => storage.getFileDownload(bucket.id, id),
+    getFileDownload: async (id) => {
+      return await storage.getFileDownload(bucket.id, id);
+    },
 
     getFilePreview: (id, options) => storage.getFilePreview(bucket.id, id, options),
 
