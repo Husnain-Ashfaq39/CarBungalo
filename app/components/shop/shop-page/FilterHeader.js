@@ -1,24 +1,29 @@
-import Image from "next/image";
+/* eslint-disable react/prop-types */
+// FilterHeader.js
 import React from "react";
-const FilterHeader = () => {
+import Image from "next/image";
+
+const FilterHeader = ({ onFilterChange }) => {
   const options = [
-    { label: "price: low to high" },
-    { label: "price: high to high" },
-    { label: "Recent" },
- 
+    { label: "Default", value: "" }, 
+    { label: "High to Low", value: "price-asc" },
+    { label: "Low to High", value: "price-desc" },
+    { label: "New Arrival", value: "recent" },
   ];
+
+  const handleChange = (e) => {
+    onFilterChange(e.target.value);
+  };
 
   return (
     <div className="sp_search_content">
       <div className="col-sm-12 col-md-4 col-lg-4 col-xl-5">
         <div className="left_area tac-xsd mb30-767 mt15">
           <p>
-            Showing 1-12 of <span className="heading-color fw600">15</span>{" "}
-            results
+            Showing 1-12 of <span className="heading-color fw600">15</span> results
           </p>
         </div>
       </div>
-      {/* End .col-12 */}
 
       <div className="col-sm-12 col-md-8 col-lg-8 col-xl-7">
         <div className="right_area text-end tac-xsd">
@@ -39,20 +44,19 @@ const FilterHeader = () => {
                 Filters
               </div>
             </li>
-            {/* End mobile toggle filter */}
-
             <li className="list-inline-item listone">Sort by:</li>
             <li className="list-inline-item listwo">
-              <select className="form-select show-tick">
+              <select className="form-select show-tick" onChange={handleChange}>
                 {options.map((option, index) => (
-                  <option key={index}>{option.label}</option>
+                  <option key={index} value={option.value}>
+                    {option.label}
+                  </option>
                 ))}
               </select>
             </li>
           </ul>
         </div>
       </div>
-      {/* End .col-12 */}
     </div>
   );
 };

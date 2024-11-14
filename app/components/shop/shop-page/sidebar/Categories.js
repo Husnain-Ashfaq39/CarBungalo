@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 'use client'
 
 import Image from "next/image"
@@ -5,11 +6,12 @@ import { ChevronDown, ChevronRight } from "lucide-react"
 import { useState, useEffect } from "react"
 import db from "@/utils/appwrite/Services/dbServices"
 import storageServices from "@/utils/appwrite/Services/storageServices"
-import React from "react" 
+import React from "react"
 
-export default function Categories() {
+export default function Categories({ onCategorySelect }) {
   const [categories, setCategories] = useState([])
-  const [expandedCategories, setExpandedCategories] = useState(new Set())
+  const [expandedCategories, setExpandedCategories] = useState(new Map())
+  const [selectedCategory, setSelectedCategory] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -19,12 +21,9 @@ export default function Categories() {
         const response = await db.Categories.list()
         const docs = response.documents
 
-        // Fetch image URLs for all categories
         const categoriesWithImages = await Promise.all(
           docs.map(async (doc) => {
             const imageUrl = doc.image ? await storageServices.images.getFileDownload(doc.image) : null
-            console.log("url image "+imageUrl);
-            
             return { ...doc, imageUrl }
           })
         )
@@ -43,14 +42,26 @@ export default function Categories() {
 
   const toggleCategory = (categoryId) => {
     setExpandedCategories((prev) => {
-      const next = new Set(prev)
-      if (next.has(categoryId)) {
-        next.delete(categoryId)
-      } else {
-        next.add(categoryId)
-      }
-      return next
+      const newExpandedCategories = new Map(prev)
+      newExpandedCategories.set(categoryId, !newExpandedCategories.get(categoryId))
+      return newExpandedCategories
     })
+  }
+
+  const selectCategory = (categoryId) => {
+    const categoryIds = getAllCategoryIds(categoryId)
+    setSelectedCategory(categoryId)
+    if (onCategorySelect) onCategorySelect(categoryIds)
+  }
+
+  const getAllCategoryIds = (categoryId) => {
+    const collectCategoryIds = (id, ids) => {
+      ids.push(id)
+      getSubcategories(id).forEach(sub => collectCategoryIds(sub.$id, ids))
+    }
+    const categoryIds = []
+    collectCategoryIds(categoryId, categoryIds)
+    return categoryIds
   }
 
   const getSubcategories = (parentId) => {
@@ -64,15 +75,15 @@ export default function Categories() {
   const renderCategory = (category, level = 0) => {
     const subcategories = getSubcategories(category.$id)
     const hasSubcategories = subcategories.length > 0
-    const isExpanded = expandedCategories.has(category.$id)
+    const isExpanded = expandedCategories.get(category.$id) || false
+    const isSelected = selectedCategory === category.$id
+
+    const categoryClasses = `flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer group ${isSelected ? 'bg-gray-200' : ''}`
+    const iconClasses = "text-gray-400 cursor-pointer"
 
     return (
       <div key={category.$id} style={{ marginLeft: `${level * 1}rem` }}>
-        <div
-          className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer group"
-          onClick={() => hasSubcategories && toggleCategory(category.$id)}
-        >
-          {/* Category Image */}
+        <div onClick={() => selectCategory(category.$id)} className={categoryClasses}>
           <div className="w-8 h-8 rounded-md overflow-hidden flex-shrink-0 bg-gray-100">
             {category.imageUrl ? (
               <Image
@@ -87,9 +98,8 @@ export default function Categories() {
             )}
           </div>
 
-          {/* Category Name and Arrow */}
           <div className="flex items-center justify-between flex-1">
-            <div>
+            <div className="flex-1">
               <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
                 {category.name}
               </span>
@@ -98,18 +108,16 @@ export default function Categories() {
               )}
             </div>
             {hasSubcategories && (
-              <div className="text-gray-400">
-                {isExpanded ? (
-                  <ChevronDown className="h-4 w-4" />
-                ) : (
-                  <ChevronRight className="h-4 w-4" />
-                )}
+              <div className={iconClasses} onClick={(e) => {
+                e.stopPropagation() 
+                toggleCategory(category.$id)
+              }}>
+                {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
               </div>
             )}
           </div>
         </div>
 
-        {/* Render subcategories if expanded */}
         {isExpanded && hasSubcategories && (
           <div className="ml-2 border-l border-gray-200 pl-2 mt-1">
             {subcategories.map((subcategory) => renderCategory(subcategory, level + 1))}
@@ -120,13 +128,9 @@ export default function Categories() {
   }
 
   if (loading) {
-    return (
-      <div className="space-y-3">
-        <div className="h-10 bg-gray-200 rounded-lg animate-pulse" />
-        <div className="h-10 bg-gray-200 rounded-lg animate-pulse" />
-        <div className="h-10 bg-gray-200 rounded-lg animate-pulse" />
-      </div>
-    )
+    return Array.from({ length: 3 }, (_, idx) => (
+      <div key={idx} className="h-10 bg-gray-200 rounded-lg animate-pulse" />
+    ))
   }
 
   if (error) {
