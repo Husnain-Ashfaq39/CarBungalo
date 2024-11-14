@@ -1,10 +1,12 @@
-import blogPosts from "@/data/blog";
+/* eslint-disable react/prop-types */
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { format } from 'date-fns'; // Import the format function
 
-const BlogGrid = () => {
+const BlogCard = ({ blogPosts }) => {
   return (
-    <>
+    <div className="row">
       {blogPosts.map((post) => (
         <div
           key={post.id}
@@ -14,7 +16,7 @@ const BlogGrid = () => {
         >
           <div className="for_blog">
             <div className="thumb">
-              <div className="tag">{post.tag}</div>
+              <div className="tag">{post.tags[0]}</div>
               <Image
                 width={394}
                 height={254}
@@ -34,24 +36,24 @@ const BlogGrid = () => {
                         {post.author}
                       </a>
                     </li>
-                    <li className="list-inline-item">
+                    <li className="list-inline-item items-center">
                       <a href="#">
-                        <span className="flaticon-chat" />
-                        {post.numComments} Comments
+                        <span className="flaticon-eye" />
+                        {post.views}
                       </a>
                     </li>
                     <li className="list-inline-item">
                       <a href="#">
                         <span className="flaticon-calendar-1" />
-                        {post.date}
+                        {format(new Date(post.publicationDate), 'MM/dd/yyyy')} {/* Consistent Formatting */}
                       </a>
                     </li>
                   </ul>
                 </div>
                 <h4 className="title">
-                  <Link href="/blog-single">{post.title}</Link>
+                  <Link href={`/blog/${post.id}`}>{post.title}</Link>
                 </h4>
-                <Link href="/blog-single" className="more_listing">
+                <Link href={`/blog/${post.id}`} className="more_listing">
                   Read More{" "}
                   <span className="icon">
                     <span className="fas fa-plus" />
@@ -62,8 +64,8 @@ const BlogGrid = () => {
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 };
 
-export default BlogGrid;
+export default BlogCard;

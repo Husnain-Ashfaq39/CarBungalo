@@ -135,16 +135,7 @@ const Home_7 = () => {
       <section className="testimonials_home7 pt0 my-20">
         <div className="container">
           <div className="row">
-            {/* <div className="col-lg-4">
-              <div className="partner_grid mb30-md">
-                <div className="row">
-                  <Partner />
-                </div>
-              </div>
-            </div> */}
-            {/* End .col-lg-4  */}
 
-           
               <div className="home7_testimonials_box pl0-md ">
                 <h2 className="title">Our Testimonials</h2>
                 {/* Swiper */}

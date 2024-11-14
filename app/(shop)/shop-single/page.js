@@ -1,16 +1,12 @@
 import Footer from "@/app/components/common/Footer";
 import DefaultHeader from "../../components/common/DefaultHeader";
 import HeaderSidebar from "../../components/common/HeaderSidebar";
-import HeaderTop from "../../components/common/HeaderTop";
 import MobileMenu from "../../components/common/MobileMenu";
 import LoginSignupModal from "@/app/components/common/login-signup";
 import SingleProDetails from "@/app/components/shop/shop-single/SingleProDetails";
 import ProductContentTabs from "@/app/components/shop/shop-single/pro-tab-content";
 import RelatedProducts from "@/app/components/shop/shop-single/RelatedProducts";
-
-export const metadata = {
-  title: "Shop Single || Voiture - Automotive & Car Dealer NextJS Template",
-};
+import React from "react";
 
 const ShopSingle = () => {
   return (
@@ -24,10 +20,6 @@ const ShopSingle = () => {
         <HeaderSidebar />
       </div>
       {/* Sidebar Panel End */}
-
-      {/* header top */}
-      <HeaderTop />
-      {/* End header top */}
 
       {/* Main Header Nav */}
       <DefaultHeader />

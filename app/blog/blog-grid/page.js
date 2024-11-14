@@ -1,17 +1,70 @@
+"use client";
 import Footer from "@/app/components/common/Footer";
 import DefaultHeader from "../../components/common/DefaultHeader";
 import HeaderSidebar from "../../components/common/HeaderSidebar";
 import HeaderTop from "../../components/common/HeaderTop";
 import MobileMenu from "../../components/common/MobileMenu";
 import LoginSignupModal from "@/app/components/common/login-signup";
-import BlogGrid from "@/app/components/blog/BlogGrid";
 import Pagination from "@/app/components/blog/Pagination";
+import React,{useState,useEffect} from "react";
+import BlogCard from "@/app/components/blog/blog-card";
+import db from "@/utils/appwrite/Services/dbServices"; // Adjust the import path as needed
+import storageServices from "@/utils/appwrite/Services/storageServices"; // Adjust the import path as needed
 
-export const metadata = {
-  title: "Blog Grid || Voiture - Automotive & Car Dealer NextJS Template",
-};
 
 const Blog = () => {
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchBlogPosts = async () => {
+      try {
+        // Fetch all documents from the Blogs collection
+        const response = await db.blogs.list(); // Replace 'blogs' with your actual collection name
+        const documents = response.documents;
+
+        // For each document, fetch the corresponding image URL
+        const postsWithImages = await Promise.all(
+          documents.map(async (doc) => {
+            const { title, tags, author, imageUrl, publicationDate, views, content } = doc;
+
+            // Fetch the image URL using storageServices
+            const imgSrc = await storageServices.images.getFileDownload(imageUrl); // Adjust the method as per your service
+
+            return {
+              id: doc.$id, // Assuming each document has a unique '$id'
+              title,
+              tags,
+              author,
+              imageUrl,
+              publicationDate,
+              views,
+              content,
+              imgSrc,
+            };
+          })
+        );
+
+        setBlogPosts(postsWithImages);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching blog posts:", err);
+        setError("Failed to load blog posts.");
+        setLoading(false);
+      }
+    };
+
+    fetchBlogPosts();
+  }, []);
+
+  if (loading) {
+    return <div>Loading blog posts...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
   return (
     <div className="wrapper">
       <div
@@ -62,7 +115,7 @@ const Blog = () => {
       <section className="blog_post_container inner_page_section_spacing">
         <div className="container">
           <div className="row">
-            <BlogGrid />
+            <BlogCard blogPosts={blogPosts} />
           </div>
           {/* End .row */}
 

@@ -41,11 +41,11 @@ module.exports = [
     subMenu: [
       {
         label: "Blog Grid",
-        path: "/blog-grid",
+        path: "/blog/blog-grid",
       },
       {
         label: "Blog List",
-        path: "/blog-list",
+        path: "/blog/blog-list",
       },
       {
         label: "Blog Single",

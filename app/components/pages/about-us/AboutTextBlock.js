@@ -1,6 +1,55 @@
+"use client";
 import Image from "next/image";
+import React,{useState,useEffect} from "react";
+import db from "@/utils/appwrite/Services/dbServices"; // Adjust the import path as needed
+import storageServices from "@/utils/appwrite/Services/storageServices";
 
 const AboutTextBlock = () => {
+  const [aboutData, setAboutData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchAboutData = async () => {
+      try {
+        // Fetch all documents from the AboutUs collection
+        const response = await db.AboutUs.list();
+        const documents = response.documents;
+
+        if (documents.length === 0) {
+          throw new Error("No About Us data found.");
+        }
+
+        // Assuming you have only one AboutUs document. Adjust if multiple.
+        const doc = documents[0];
+        const { title, content, imageId } = doc;
+
+        // Fetch the image URL using storageServices
+        const imageUrl = await storageServices.images.getFileView(imageId);
+
+        setAboutData({
+          title,
+          content,
+          image: imageUrl,
+        });
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching About Us data:", err);
+        setError("Failed to load About Us section.");
+        setLoading(false);
+      }
+    };
+
+    fetchAboutData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading About Us section...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
   return (
     <>
       <div className="col-lg-6">
@@ -11,36 +60,19 @@ const AboutTextBlock = () => {
             priority
             style={{ objectFit: "cover" }}
             className="thumb1"
-            src="/images/about/1.jpg"
+            src={aboutData.image}
             alt="1.jpg"
           />
-          <Image
-            width={365}
-            height={238}
-            priority
-            style={{ objectFit: "cover" }}
-            className="img-fluid thumb2"
-            src="/images/about/2.jpg"
-            alt="2.jpg"
-          />
+        
         </div>
       </div>
       {/* End .col */}
-      <div className="col-lg-5 offset-lg-1">
+      <div className="col-lg-5 offset-lg-1 lg:mt-[-120px]">
         <div className="about_content">
-          <h2 className="title">Welcome To The Voiture</h2>
+          <h2 className="title">{aboutData.title}</h2>
           <p className="mb30">
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-            commodo ligula eget dolor. Aenean massa. Cum sociis Theme natoque
-            penatibus et magnis dis parturient montes, nascetur.
+          {aboutData.content}
           </p>
-          <p className="mb50">
-            Vel illum dolore eu feugiat nulla facilisis at vero eros et accu qui
-            blandit praesent luptatum zzril delenit.
-          </p>
-          <a className="btn btn-thm about-btn" href="#">
-            Learn More
-          </a>
         </div>
       </div>
       {/* End .col */}

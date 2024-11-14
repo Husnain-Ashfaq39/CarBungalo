@@ -6,12 +6,10 @@ import MobileMenu from "../../components/common/MobileMenu";
 import AboutTextBlock from "@/app/components/pages/about-us/AboutTextBlock";
 import WhyChoose from "@/app/components/common/WhyChoose";
 import Team from "@/app/components/common/Team";
-import Testimonial from "@/app/components/common/Testimonial";
-import Partner from "@/app/components/common/Partner";
 import LoginSignupModal from "@/app/components/common/login-signup";
-
+import React from "react";
 export const metadata = {
-  title: "About Us || Voiture - Automotive & Car Dealer NextJS Template",
+  title: "About Us || Car Bungalo",
 };
 
 const AboutUs = () => {
@@ -27,9 +25,7 @@ const AboutUs = () => {
       </div>
       {/* Sidebar Panel End */}
 
-      {/* header top */}
-      <HeaderTop />
-      {/* End header top */}
+    
 
       {/* Main Header Nav */}
       <DefaultHeader />
@@ -90,7 +86,7 @@ const AboutUs = () => {
       {/* End Why Chose Us */}
 
       {/* Our Team */}
-      <section className="our-team pb90 pt0">
+      {/* <section className="our-team pb90 pt0">
         <div className="container">
           <div className="row">
             <div className="col-lg-6 offset-lg-3">
@@ -99,7 +95,7 @@ const AboutUs = () => {
               </div>
             </div>
           </div>
-          {/* End .row */}
+         
 
           <div className="row">
             <div className="col-lg-12">
@@ -114,54 +110,13 @@ const AboutUs = () => {
               </div>
             </div>
           </div>
-          {/* End .row */}
+         
         </div>
-        {/* End .container */}
-      </section>
+       
+      </section> */}
       {/* End Our Team */}
 
-      {/* Testimonials  */}
-      <section className="our-testimonials-home1 pt120 pb120">
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-8">
-              <div className="main-title text-center">
-                <h2>Testimonials</h2>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="testimonial_slider_home1">
-                <Testimonial />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* End Testimonials  */}
-
-      {/* Our Partners */}
-      <section className="our-partner pb100">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-6 offset-lg-3">
-              <div className="main-title text-center">
-                <h2>Popular Makes</h2>
-              </div>
-            </div>
-          </div>
-          {/* End .row */}
-
-          <div className="partner_divider">
-            <div className="row">
-              <Partner />
-            </div>
-            {/* End .row */}
-          </div>
-        </div>
-      </section>
-      {/* End  Our Partners */}
+      
 
       {/* Our Footer */}
       <Footer />

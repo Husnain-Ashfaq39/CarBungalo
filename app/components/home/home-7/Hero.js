@@ -1,30 +1,62 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import db from "@/utils/appwrite/Services/dbServices"; // Adjust the import path as needed
+import storageServices from "@/utils/appwrite/Services/storageServices"; // Adjust the import path as needed
 
 const Hero = () => {
-  const carSlides = [
-    {
-      image: "/images/home/hero2.png",
-      title: "Audi A8 L 55",
-      price: "$746",
-    },
-    {
-      image: "/images/home/hero1.png",
-      title: "Audi A8 L 55",
-      price: "$865",
-    },
-    {
-      image: "/images/home/hero2.png",
-      title: "BMW M8 Gran Coupe",
-      price: "$976",
-    },
-  ];
+  const [carSlides, setCarSlides] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchHeroData = async () => {
+      try {
+        // Fetch all documents from the HeroSection collection
+        const response = await db.HeroSection.list();
+        const documents = response.documents;
+
+        // For each document, fetch the corresponding image URL
+        const slidesWithImages = await Promise.all(
+          documents.map(async (doc) => {
+            const { title, subtitle, imageId } = doc;
+            // Fetch the image URL using storageServices
+            const imageUrl = await storageServices.images.getFileView(imageId);
+           
+          
+
+            return {
+              title,
+              subtitle,
+              image: imageUrl,
+            };
+          })
+        );
+
+        setCarSlides(slidesWithImages);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching hero data:", err);
+        setError("Failed to load hero section.");
+        setLoading(false);
+      }
+    };
+
+    fetchHeroData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading hero section...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className="row">
@@ -48,7 +80,7 @@ const Hero = () => {
                       <div className="wrapper text-center">
                         <h2 className="title">
                           <Link href="/listing-single-v1">
-                            Turn Your Van into
+                          { slide.title}
                           </Link>
                         </h2>
                         <h3 className="subtitle text-thm">
@@ -65,7 +97,7 @@ const Hero = () => {
                               alt="img"
                             />
                           </span>
-                          Perfect Holiday Home
+                          {slide.subtitle}
                         </h3>
                         <div className="d-flex justify-content-center">
                           <Link
@@ -83,10 +115,8 @@ const Hero = () => {
                         </div>
                       </div>
                       <div className="thumb">
-                        <Image
+                      <Image
                           width={850}
-                         
-                          data-aos="fade-up"
                           height={335}
                           style={{
                             objectFit: "cover",

@@ -1,17 +1,14 @@
 import Footer from "@/app/components/common/Footer";
 import DefaultHeader from "../../components/common/DefaultHeader";
 import HeaderSidebar from "../../components/common/HeaderSidebar";
-import HeaderTop from "../../components/common/HeaderTop";
 import MobileMenu from "../../components/common/MobileMenu";
 import LoginSignupModal from "@/app/components/common/login-signup";
 import FilterHeader from "@/app/components/shop/shop-page/FilterHeader";
-import Sidebar from "@/app/components/shop/shop-page/sidebar";
 import Pagination from "@/app/components/common/Pagination";
 import Products from "@/app/components/shop/shop-page/Products";
-
-export const metadata = {
-  title: "Shop || Voiture - Automotive & Car Dealer NextJS Template",
-};
+import React from "react";
+import Categories from "@/app/components/shop/shop-page/sidebar/Categories";
+import RecentPost from "@/app/components/shop/shop-page/sidebar/RecentPost";
 
 const Shop = () => {
   return (
@@ -26,9 +23,7 @@ const Shop = () => {
       </div>
       {/* Sidebar Panel End */}
 
-      {/* header top */}
-      <HeaderTop />
-      {/* End header top */}
+
 
       {/* Main Header Nav */}
       <DefaultHeader />
@@ -72,7 +67,23 @@ const Shop = () => {
 
           <div className="row">
             <div className="col-xl-3 dn-lg">
-              <Sidebar />
+              <div className="sidebar_listing_grid1 mb30">
+                <div className="sidebar_listing_list">
+                  <div className="shop_category_sidebar_widgets">
+                    <h4 className="title">Categories</h4>
+                    <div className="widget_list">
+                      <Categories />
+                    </div>
+                  </div>
+                  {/* End Categories */}
+
+                  <div className="sidebar_shop_recent_post">
+                    <h4 className="title">Recent Posts</h4>
+                    <RecentPost />
+                  </div>
+                  {/* End .sidebar_shop_recent_post */}
+                </div>
+              </div>
             </div>
             {/* End .col-xl-3 */}
 

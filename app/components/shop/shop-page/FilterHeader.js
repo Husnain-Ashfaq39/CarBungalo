@@ -1,12 +1,11 @@
 import Image from "next/image";
-
+import React from "react";
 const FilterHeader = () => {
   const options = [
-    { label: "Date: newest First" },
-    { label: "Most Recent" },
+    { label: "price: low to high" },
+    { label: "price: high to high" },
     { label: "Recent" },
-    { label: "Best Selling" },
-    { label: "Old Review" },
+ 
   ];
 
   return (
@@ -14,7 +13,7 @@ const FilterHeader = () => {
       <div className="col-sm-12 col-md-4 col-lg-4 col-xl-5">
         <div className="left_area tac-xsd mb30-767 mt15">
           <p>
-            Showing 1–12 of <span className="heading-color fw600">15</span>{" "}
+            Showing 1-12 of <span className="heading-color fw600">15</span>{" "}
             results
           </p>
         </div>
