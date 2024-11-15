@@ -1,14 +1,13 @@
-import Footer from "@/app/components/common/Footer";
+import Footer from "@/app/components/home/home-7/Footer";
 import DefaultHeader from "../../components/common/DefaultHeader";
 import HeaderSidebar from "../../components/common/HeaderSidebar";
-import HeaderTop from "../../components/common/HeaderTop";
 import MobileMenu from "../../components/common/MobileMenu";
 import LoginSignupModal from "@/app/components/common/login-signup";
 import Terms from "@/app/components/pages/tersm-conditions/Terms";
-
+import React from "react";
 export const metadata = {
   title:
-    "Terms & Conditions || Voiture - Automotive & Car Dealer NextJS Template",
+    "Terms & Conditions || Car Bungalo",
 };
 
 const TermsConditions = () => {
@@ -24,9 +23,7 @@ const TermsConditions = () => {
       </div>
       {/* Sidebar Panel End */}
 
-      {/* header top */}
-      <HeaderTop />
-      {/* End header top */}
+     
 
       {/* Main Header Nav */}
       <DefaultHeader />

@@ -20,7 +20,8 @@ const Home_7 = () => {
         id="offcanvasRight"
         aria-labelledby="offcanvasRightLabel"
       >
-        <HeaderSidebar />
+       <HeaderSidebar/>
+        
       </div>
       {/* Sidebar Panel End */}
 
@@ -106,6 +107,7 @@ const Home_7 = () => {
             </div>
           </div>
           {/* End .row */}
+         
 
           <div className="row">
             <div className="col-lg-12" data-aos-delay="100" data-aos="fade-up">

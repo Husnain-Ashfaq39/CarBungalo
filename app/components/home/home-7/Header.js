@@ -1,10 +1,54 @@
+'use client'
 import Link from "next/link";
 import MainMenu from "../../common/MainMenu";
-import Image from "next/image";
 import LoginSignupModal from "../../common/login-signup";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import db from "@/utils/appwrite/Services/dbServices"; // Adjust the import path as needed
+import storageServices from "@/utils/appwrite/Services/storageServices"; // Adjust the import path as needed
+import { Query } from "appwrite";
+
 
 const Header = () => {
+  const [logo, setLogo] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchLogoData = async () => {
+      try {
+        const query = [
+          Query.select([
+            'logo'
+          ])
+        ];
+        // Fetch the GeneralData collection
+        const response = await db.GeneralData.list(query);
+        const documents = response.documents[0];
+        console.log("Fetched documents:", documents);
+
+        // Fetch the logo URL using storageServices
+        const logoUrl = await storageServices.images.getFileDownload(documents.logo);
+        console.log("Logo URL:", logoUrl);
+
+        setLogo(logoUrl);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching logo data:", err);
+        setError("Failed to load logo.");
+        setLoading(false);
+      }
+    };
+
+    fetchLogoData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading header...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
   return (
     <header className="header-nav menu_style_home_one home7_style transparent main-menu">
       {/* Ace Responsive Menu */}
@@ -35,20 +79,24 @@ const Header = () => {
           {/* End sidebar desktop humberger */}
 
           <Link href="/" className="navbar_brand float-start dn-md mt20 me-4">
-            <Image
-              width={140}
-              height={45}
-              className="logo1 img-fluid"
-              src="/images/header-logo2.svg"
-              alt="header-logo.svg"
-            />
-            <Image
-              width={140}
-              height={45}
-              className="logo2 img-fluid"
-              src="/images/header-logo2.svg"
-              alt="header-logo2.svg"
-            />
+          {logo && (
+              <>
+                <img
+                  width={140}
+                  height={45}
+                  className="logo1 img-fluid"
+                  src={logo}
+                  alt="header-logo.svg"
+                />
+                <img
+                  width={140}
+                  height={45}
+                  className="logo2 img-fluid"
+                  src={logo}
+                  alt="header-logo2.svg"
+                />
+              </>
+            )}
           </Link>
           {/* End logo*/}
 

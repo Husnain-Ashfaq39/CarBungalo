@@ -30,8 +30,8 @@ export const collections = [
     name: "Categories",
   },
   {
-    id: "66fbce8b0019104ab7b5",
-    name: "Products",
+    id: "670760c60037a5149b81",
+    name: "GeneralData",
   },
   
 ];
