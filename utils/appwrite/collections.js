@@ -37,5 +37,9 @@ export const collections = [
     id: "670760c60037a5149b81",
     name: "GeneralData",
   },
+  {
+    id: "66fbcd5b002c8f6d7df1",
+    name: "Users",
+  },
   
 ];

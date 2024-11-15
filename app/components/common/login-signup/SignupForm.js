@@ -3,6 +3,7 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { registerUser } from "@/utils/appwrite/Services/authServices";
+import db from "@/utils/appwrite/Services/dbServices"; // Ensure the correct path
 
 const SignupForm = () => {
   // Define the validation schema using Yup
@@ -22,6 +23,27 @@ const SignupForm = () => {
       .required("Confirm Password is required"),
   });
 
+  // Function to add user data to the Users collection
+  const addUserToCollection = async (userId, name, email) => {
+    try {
+      const userData = {
+        userId: userId,
+        role: "customer",
+        name: name,
+        email: email,
+        // telephone: "", // Telephone field is omitted as per your requirement
+      };
+
+      // Use the dynamic 'create' method for the Users collection
+      const response = await db.Users.create(userData);
+
+      console.log("User added to Users collection:", response);
+    } catch (error) {
+      console.error("Error adding user to Users collection:", error);
+      throw new Error("Failed to save user data.");
+    }
+  };
+
   // Initialize Formik
   const formik = useFormik({
     initialValues: {
@@ -34,7 +56,19 @@ const SignupForm = () => {
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
         console.log("Form Data", values);
-        await registerUser(values.username, values.email, values.password);
+        // Register the user and get the user object
+        const user = await registerUser(values.username, values.email, values.password);
+
+        // Assuming registerUser returns an object with the user's ID
+        const userId = user.$id; // Adjust based on your registerUser implementation
+
+        // Add user data to the Users collection
+        await addUserToCollection(userId, values.username, values.email);
+
+        // Optionally, you can redirect the user or show a success message here
+        // For example:
+        // router.push('/welcome');
+        alert("Registration successful!");
       } catch (error) {
         console.error("Registration error:", error);
         setErrors({ submit: error.message || "Registration failed" });
