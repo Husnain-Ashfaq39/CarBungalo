@@ -1,4 +1,5 @@
-"use client"
+"use client";
+import React, { useState, useCallback } from "react";
 import Footer from "@/app/components/home/home-7/Footer";
 import DefaultHeader from "../../components/common/DefaultHeader";
 import HeaderSidebar from "../../components/common/HeaderSidebar";
@@ -7,23 +8,42 @@ import LoginSignupModal from "@/app/components/common/login-signup";
 import FilterHeader from "@/app/components/shop/shop-page/FilterHeader";
 import Pagination from "@/app/components/common/Pagination";
 import Products from "@/app/components/shop/shop-page/Products";
-import React from "react";
 import Categories from "@/app/components/shop/shop-page/sidebar/Categories";
 import RecentPost from "@/app/components/shop/shop-page/sidebar/RecentPost";
-import  {  useState } from "react";
+import useDebounce from "@/utils/Hooks/useDebounce";
 
 const Shop = () => {
-  const [filter, setFilter] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("");
-  const handleFilterChange = (newFilter) => {
+  const [filter, setFilter] = useState("default");
+  const [categoryFilter, setCategoryFilter] = useState([]); // Assuming multiple categories
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12; // Adjust as needed
+
+  // Debounce the search term
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
+
+  const handleFilterChange = useCallback((newFilter) => {
     setFilter(newFilter);
-  };
-  const handleCategorySelect = (categoryIds) => {
-    setCategoryFilter(categoryIds); 
-  };
+    setCurrentPage(1); // Reset to first page on filter change
+  }, []);
+
+  const handleCategorySelect = useCallback((selectedCategories) => {
+    setCategoryFilter(selectedCategories);
+    setCurrentPage(1); // Reset to first page on category change
+  }, []);
+
+  const handleSearchChange = useCallback((newSearchTerm) => {
+    setSearchTerm(newSearchTerm);
+    setCurrentPage(1); // Reset to first page on search
+  }, []);
+
+  const handlePageChange = useCallback((pageNumber) => {
+    setCurrentPage(pageNumber);
+  }, []);
 
   return (
     <div className="wrapper">
+      {/* Offcanvas Sidebar */}
       <div
         className="offcanvas offcanvas-end"
         tabIndex="-1"
@@ -33,87 +53,77 @@ const Shop = () => {
         <HeaderSidebar />
       </div>
 
+      {/* Header and Mobile Menu */}
       <DefaultHeader />
-
       <MobileMenu />
 
-      <section className="inner_page_breadcrumb style2 bgc-f9">
-        <div className="container">
-          <div className="row">
-            <div className="col-xl-12">
-              <div className="breadcrumb_content style2">
-                <h2 className="breadcrumb_title">Shop</h2>
-                <p className="subtitle">Shop</p>
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <a href="#">Home</a>
-                  </li>
-                  <li className="breadcrumb-item active" aria-current="page">
-                    Shop
-                  </li>
-                </ol>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* End Inner Page Breadcrumb */}
-
-      {/* Listing Grid View */}
+      {/* Main Shop Section */}
       <section className="our-listing pb30-991 bgc-f9 pt0">
         <div className="container">
+          {/* Filter Header */}
           <div className="row">
-            <FilterHeader onFilterChange={handleFilterChange} />
-            {/* End .sp_search_content */}
+            <FilterHeader
+              onFilterChange={handleFilterChange}
+              onSearchChange={handleSearchChange}
+              searchTerm={searchTerm}
+            />
           </div>
-          {/* End .row */}
 
           <div className="row">
+            {/* Sidebar */}
             <div className="col-xl-3 dn-lg">
               <div className="sidebar_listing_grid1 mb30">
                 <div className="sidebar_listing_list">
+                  {/* Categories */}
                   <div className="shop_category_sidebar_widgets">
                     <h4 className="title">Categories</h4>
                     <div className="widget_list">
-                    <Categories onCategorySelect={handleCategorySelect} />
+                      <Categories onCategorySelect={handleCategorySelect} selectedCategories={categoryFilter} />
                     </div>
                   </div>
-                  {/* End Categories */}
 
+                  {/* Recent Posts */}
                   <div className="sidebar_shop_recent_post">
                     <h4 className="title">Top Sellings</h4>
                     <RecentPost />
                   </div>
-                  {/* End .sidebar_shop_recent_post */}
                 </div>
               </div>
             </div>
-            {/* End .col-xl-3 */}
 
+            {/* Products and Pagination */}
             <div className="col-xl-9 pr0">
               <div className="row">
-              <Products filter={filter} categoryFilter={categoryFilter} />
+                <Products
+                  filter={filter}
+                  categoryFilter={categoryFilter}
+                  searchTerm={debouncedSearchTerm}
+                  currentPage={currentPage}
+                  itemsPerPage={itemsPerPage}
+                />
               </div>
-              {/* End .row */}
 
               <div className="row">
                 <div className="col-lg-12">
                   <div className="mbp_pagination mt20">
-                    <Pagination />
+                    <Pagination
+                      currentPage={currentPage}
+                      itemsPerPage={itemsPerPage}
+                      totalItems='12'
+                      onPageChange={handlePageChange}
+                    />
                   </div>
                 </div>
               </div>
-              {/* End .row */}
             </div>
-            {/* End .col-xl-9 */}
           </div>
-          {/* End .row */}
         </div>
-        {/* End .container */}
       </section>
-  
+
+      {/* Footer */}
       <Footer />
- 
+
+      {/* Login/Signup Modal */}
       <div
         className="sign_up_modal modal fade"
         id="logInModal"
@@ -124,9 +134,7 @@ const Shop = () => {
       >
         <LoginSignupModal />
       </div>
-      {/* End Modal */}
     </div>
-    // End wrapper
   );
 };
 
