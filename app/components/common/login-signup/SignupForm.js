@@ -35,7 +35,7 @@ const SignupForm = () => {
       };
 
       // Use the dynamic 'create' method for the Users collection
-      const response = await db.Users.create(userData);
+      const response = await db.Users.create(userData,userId);
 
       console.log("User added to Users collection:", response);
     } catch (error) {
