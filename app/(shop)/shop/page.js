@@ -1,5 +1,7 @@
+// Shop.jsx
+
 "use client";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Footer from "@/app/components/home/home-7/Footer";
 import DefaultHeader from "../../components/common/DefaultHeader";
 import HeaderSidebar from "../../components/common/HeaderSidebar";
@@ -11,6 +13,8 @@ import Products from "@/app/components/shop/shop-page/Products";
 import Categories from "@/app/components/shop/shop-page/sidebar/Categories";
 import RecentPost from "@/app/components/shop/shop-page/sidebar/RecentPost";
 import useDebounce from "@/utils/Hooks/useDebounce";
+import db from "@/utils/appwrite/Services/dbServices";
+import { Query } from "appwrite";
 
 const Shop = () => {
   const [filter, setFilter] = useState("default");
@@ -19,8 +23,42 @@ const Shop = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12; // Adjust as needed
 
+  // State for suggestions
+  const [suggestions, setSuggestions] = useState([]);
+  const [isSuggestionsLoading, setIsSuggestionsLoading] = useState(false);
+  const [suggestionsError, setSuggestionsError] = useState(null);
+
   // Debounce the search term
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
+
+  // Fetch Suggestions based on debounced search term
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      if (debouncedSearchTerm.trim() === "") {
+        setSuggestions([]);
+        return;
+      }
+      setIsSuggestionsLoading(true);
+      setSuggestionsError(null);
+      try {
+        const query = [
+          Query.search("name", `*${debouncedSearchTerm}*`),
+          Query.limit(5), // Limit to top 5 suggestions
+        ];
+        const response = await db.Products.list(query);
+        const docs = response.documents;
+        const suggestionsData = docs.map((product) => product.name);
+        setSuggestions(suggestionsData);
+      } catch (err) {
+        console.error("Error fetching suggestions:", err);
+        setSuggestionsError("Failed to load suggestions");
+      } finally {
+        setIsSuggestionsLoading(false);
+      }
+    };
+
+    fetchSuggestions();
+  }, [debouncedSearchTerm]);
 
   const handleFilterChange = useCallback((newFilter) => {
     setFilter(newFilter);
@@ -66,6 +104,10 @@ const Shop = () => {
               onFilterChange={handleFilterChange}
               onSearchChange={handleSearchChange}
               searchTerm={searchTerm}
+              suggestions={suggestions}
+              isSuggestionsLoading={isSuggestionsLoading}
+              suggestionsError={suggestionsError}
+              filter={filter}
             />
           </div>
 
@@ -78,7 +120,10 @@ const Shop = () => {
                   <div className="shop_category_sidebar_widgets">
                     <h4 className="title">Categories</h4>
                     <div className="widget_list">
-                      <Categories onCategorySelect={handleCategorySelect} selectedCategories={categoryFilter} />
+                      <Categories
+                        onCategorySelect={handleCategorySelect}
+                        selectedCategories={categoryFilter}
+                      />
                     </div>
                   </div>
 
