@@ -4,11 +4,15 @@ import MainMenu from "../../common/MainMenu";
 import LoginSignupModal from "../../common/login-signup";
 import React, { useEffect, useState } from "react";
 import db from "@/utils/appwrite/Services/dbServices"; // Adjust the import path as needed
+import {signOutUser} from "@/utils/appwrite/Services/authServices"; // Adjust the import path as needed
 import storageServices from "@/utils/appwrite/Services/storageServices"; // Adjust the import path as needed
 import { Query } from "appwrite";
-
+import useUserStore from "@/utils/store/userStore";
 
 const Header = () => {
+  const user = useUserStore((state) => state.user);
+  const clearUser = useUserStore((state) => state.clearUser);
+ 
   const [logo, setLogo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -17,9 +21,7 @@ const Header = () => {
     const fetchLogoData = async () => {
       try {
         const query = [
-          Query.select([
-            'logo'
-          ])
+          Query.select(['logo'])
         ];
         // Fetch the GeneralData collection
         const response = await db.GeneralData.list(query);
@@ -42,6 +44,12 @@ const Header = () => {
     fetchLogoData();
   }, []);
 
+  const handleLogout= ()=>{
+    clearUser();
+    signOutUser();
+
+  }
+
   if (loading) {
     return <div>Loading header...</div>;
   }
@@ -49,11 +57,12 @@ const Header = () => {
   if (error) {
     return <div>{error}</div>;
   }
+
   return (
     <header className="header-nav menu_style_home_one home7_style transparent main-menu">
       {/* Ace Responsive Menu */}
       <nav>
-        <div className="container-fluid">
+        <div className="container-fluid ">
           {/* Menu Toggle btn*/}
           <div className="menu-toggle">
             <button type="button" id="menu-btn">
@@ -62,7 +71,7 @@ const Header = () => {
               <span className="icon-bar" />
             </button>
           </div>
-          {/* End mobile menu humberger */}
+          {/* End mobile menu hamburger */}
 
           <ul className="ace-responsive-menu menu_list_custom_code wa float-start mr30">
             <li
@@ -76,10 +85,10 @@ const Header = () => {
               </a>
             </li>
           </ul>
-          {/* End sidebar desktop humberger */}
+          {/* End sidebar desktop hamburger */}
 
           <Link href="/" className="navbar_brand float-start dn-md mt20 me-4">
-          {logo && (
+            {logo && (
               <>
                 <img
                   width={140}
@@ -105,26 +114,58 @@ const Header = () => {
           </ul>
           {/* End main menu */}
 
-          <ul className="ace-responsive-menu menu_list_custom_code wa text-end">
-            <li className="add_listing">
-              <Link href="/add-listings">+ Build Your Car</Link>
-            </li>
+          <ul className="flex items-center justify-end space-x-4 pt-8">
+            {/* Build Your Car Button */}
             <li>
-              <a href="#" data-bs-toggle="modal" data-bs-target="#logInModal">
-                Login
-              </a>
+              <Link
+                href="/add-listings"
+                className="px-6 py-2 border bg-[#F5C34B] text-[#1A3760] rounded-full hover:bg-transparent  transition"
+              >
+                + Build Your Car
+              </Link>
             </li>
-            <li>
-              <a className="pl0 pr0" href="#">
-                |
-              </a>
-            </li>
-            <li>
-              <a href="#" data-bs-toggle="modal" data-bs-target="#logInModal">
-                Register
-              </a>
-            </li>
+            {/* User Info Section */}
+            {user ? (
+              <>
+                <li className="flex items-center space-x-2">
+                  <span className="text-gray-700 text-xl">
+                    Hello, {user.name.charAt(0).toUpperCase() + user.name.slice(1)}
+                  </span>
+
+                  <img src="/images/icon/logout.svg" alt="logout" className="h-6 w-6 cursor-pointer" onClick={handleLogout} />
+                </li>
+              </>
+
+            ) : (
+              <>
+                {/* Login / Register Links */}
+                <li>
+                  <a
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#logInModal"
+                    className="text-gray-700 hover:text-blue-500 transition"
+                  >
+                    Login
+                  </a>
+                </li>
+                <li>
+                  <span className="text-gray-400">|</span>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#logInModal"
+                    className="text-gray-700 hover:text-blue-500 transition"
+                  >
+                    Register
+                  </a>
+                </li>
+              </>
+            )}
           </ul>
+
           {/* End right side content */}
 
           {/* Login signup Modal */}
@@ -138,7 +179,7 @@ const Header = () => {
           >
             <LoginSignupModal />
           </div>
-          {/* End Login signup  Modal */}
+          {/* End Login signup Modal */}
         </div>
       </nav>
     </header>

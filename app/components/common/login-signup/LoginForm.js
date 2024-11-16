@@ -1,3 +1,4 @@
+// LoginForm.jsx
 'use client';
 import React from "react";
 import { useFormik } from "formik";
@@ -5,12 +6,14 @@ import * as Yup from "yup";
 import { signIn } from "@/utils/appwrite/Services/authServices";
 import db from "@/utils/appwrite/Services/dbServices"; // Ensure correct path
 import useUserStore from "@/utils/store/userStore"; // Path to your Zustand store
+import { useRouter } from 'next/navigation';
+
 
 const LoginForm = () => {
-  // Access the setUser function from Zustand store
   const setUser = useUserStore((state) => state.setUser);
+  const setSession = useUserStore((state) => state.setSession);
+  const router = useRouter();
 
-  // Define validation schema using Yup
   const validationSchema = Yup.object({
     username: Yup.string().required("Username or email address is required"),
     password: Yup.string()
@@ -18,7 +21,6 @@ const LoginForm = () => {
       .min(8, "Password must be at least 8 characters"),
   });
 
-  // Initialize Formik
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -28,18 +30,23 @@ const LoginForm = () => {
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
         // Attempt to sign in
-        const user = await signIn(values.username, values.password);
+        const { user, session } = await signIn(values.username, values.password);
         console.log("Authenticated user:", user);
+        console.log("Session data:", session);
 
-        // Fetch user data from Users collection
-        const userData = await db.Users.get(user.userId); // Adjust based on your dbServices implementation
+        // Fetch additional user data if needed
+        const userData = await db.Users.get(session.userId); // Adjust based on your dbServices implementation
         console.log("Fetched user data:", userData);
 
-        // Store user data in Zustand store
+        // Store user and session data in Zustand store
         setUser(userData);
+        setSession(session);
 
-        // Optionally, show a success message or redirect
-        alert(`${values.username} logged in successfully`);
+        // Redirect to home or desired page
+        router.push('/'); // Adjust the path as needed
+
+        // Optionally, show a success message
+        // alert(`${values.username} logged in successfully`);
       } catch (error) {
         console.error("Error during sign-in", error);
         setErrors({ submit: error.message || "Login failed. Please check your credentials." });
@@ -48,6 +55,13 @@ const LoginForm = () => {
       }
     },
   });
+
+  // Redirect if already logged in
+  React.useEffect(() => {
+    if (useUserStore.getState().user) {
+      router.push('/'); // Redirect to home or desired page
+    }
+  }, [router]);
 
   return (
     <form onSubmit={formik.handleSubmit}>
