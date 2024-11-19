@@ -15,7 +15,7 @@ const LoginForm = () => {
   const router = useRouter();
 
   const validationSchema = Yup.object({
-    username: Yup.string().required("Username or email address is required"),
+    email: Yup.string().required("email or email address is required"),
     password: Yup.string()
       .required("Password is required")
       .min(8, "Password must be at least 8 characters"),
@@ -23,14 +23,14 @@ const LoginForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      username: "",
+      email: "",
       password: "",
     },
     validationSchema,
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
         // Attempt to sign in
-        const { user, session } = await signIn(values.username, values.password);
+        const { user, session } = await signIn(values.email, values.password);
         console.log("Authenticated user:", user);
         console.log("Session data:", session);
 
@@ -46,7 +46,7 @@ const LoginForm = () => {
         router.push('/'); // Adjust the path as needed
 
         // Optionally, show a success message
-        // alert(`${values.username} logged in successfully`);
+        // alert(`${values.email} logged in successfully`);
       } catch (error) {
         console.error("Error during sign-in", error);
         setErrors({ submit: error.message || "Login failed. Please check your credentials." });
@@ -56,40 +56,43 @@ const LoginForm = () => {
     },
   });
 
-  // Redirect if already logged in
-  React.useEffect(() => {
-    if (useUserStore.getState().user) {
-      router.push('/'); // Redirect to home or desired page
-    }
-  }, [router]);
+
 
   return (
     <form onSubmit={formik.handleSubmit}>
+      {/* Email Field */}
       <div className="mb-2">
-        <label className="form-label">Username or email address *</label>
+        <label className="form-label">Email Address *</label>
         <input
-          type="text"
-          name="username"
+          type="email"
+          name="email"
           className={`form-control ${
-            formik.touched.username && formik.errors.username ? "is-invalid" : ""
+            formik.touched.email && formik.errors.email
+              ? 'is-invalid'
+              : ''
           }`}
-          placeholder="Username or Email"
-          value={formik.values.username}
+          placeholder="Email"
+          value={formik.values.email}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
-        {formik.touched.username && formik.errors.username && (
-          <div className="invalid-feedback">{formik.errors.username}</div>
+        {formik.touched.email && formik.errors.email && (
+          <div className="invalid-feedback">
+            {formik.errors.email}
+          </div>
         )}
       </div>
 
+      {/* Password Field */}
       <div className="form-group mb-2">
         <label className="form-label">Password *</label>
         <input
           type="password"
           name="password"
           className={`form-control ${
-            formik.touched.password && formik.errors.password ? "is-invalid" : ""
+            formik.touched.password && formik.errors.password
+              ? 'is-invalid'
+              : ''
           }`}
           placeholder="Password"
           value={formik.values.password}
@@ -97,22 +100,56 @@ const LoginForm = () => {
           onBlur={formik.handleBlur}
         />
         {formik.touched.password && formik.errors.password && (
-          <div className="invalid-feedback">{formik.errors.password}</div>
+          <div className="invalid-feedback">
+            {formik.errors.password}
+          </div>
         )}
       </div>
 
       {/* Display submission errors */}
       {formik.errors.submit && (
-        <div className="alert alert-danger">{formik.errors.submit}</div>
+        <div className="alert alert-danger">
+          {formik.errors.submit}
+        </div>
       )}
 
+      {/* Submit Button */}
       <button
         type="submit"
-        className="btn btn-log btn-thm mt-3"
+        className="btn btn-log btn-thm mt-3 w-full"
         disabled={formik.isSubmitting}
       >
-        {formik.isSubmitting ? "Signing In..." : "Sign in"}
+        {formik.isSubmitting ? 'Signing In...' : 'Sign in'}
       </button>
+
+      {/* Divider */}
+      <div className="flex items-center my-4">
+        <hr className="flex-grow border-gray-300" />
+        <span className="mx-2 text-gray-500">or</span>
+        <hr className="flex-grow border-gray-300" />
+      </div>
+
+      {/* Google Sign-In Button */}
+      <div className="mt-4">
+        <button
+          type="button"
+          className="btn btn-google w-full flex items-center justify-center"
+          onClick={signInWithGoogle}
+        >
+          {/* Google SVG Icon */}
+          <svg
+            className="w-5 h-5 mr-2"
+            viewBox="0 0 48 48"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill="#FFC107"
+              d="M43.6 20.2H42V20H24v8h11.3C34.7 32.6 30 36 24 36c-7.7 0-14-6.3-14-14s6.3-14 14-14c3.5 0 6.7 1.3 9.2 3.6l6.4-6.4C34.9 2.6 29.1 0 24 0 11.8 0 2 9.8 2 22s9.8 22 22 22c11 0 19.7-8 21.6-18h-21.6v-8z"
+            />
+          </svg>
+          Sign in with Google
+        </button>
+      </div>
     </form>
   );
 };
