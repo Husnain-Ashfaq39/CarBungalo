@@ -15,10 +15,6 @@ const Wrapper = ({ children }) => {
     ); // Or a more sophisticated loading spinner
   }
 
-  if (!user || !session) {
-    return null; // Optionally, render a fallback UI
-  }
-
   return (
     <div>
       {/* You can add layout elements here, such as headers or navigation bars */}

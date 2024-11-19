@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // LoginForm.jsx
 'use client';
 import React from "react";
@@ -9,7 +10,7 @@ import useUserStore from "@/utils/store/userStore"; // Path to your Zustand stor
 import { useRouter } from 'next/navigation';
 
 
-const LoginForm = () => {
+const LoginForm = ({ onClose }) => {
   const setUser = useUserStore((state) => state.setUser);
   const setSession = useUserStore((state) => state.setSession);
   const router = useRouter();
@@ -30,21 +31,20 @@ const LoginForm = () => {
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
         // Attempt to sign in
-        const { user, session } = await signIn(values.email, values.password);
-        console.log("Authenticated user:", user);
-        console.log("Session data:", session);
+        const {  session,userId } = await signIn(values.email, values.password);
+        
 
         // Fetch additional user data if needed
-        const userData = await db.Users.get(session.userId); // Adjust based on your dbServices implementation
+        const userData = await db.Users.get(userId); // Adjust based on your dbServices implementation
         console.log("Fetched user data:", userData);
 
         // Store user and session data in Zustand store
-        setUser(userData);
-        setSession(session);
+        await setUser(userData);
+        await setSession({ id: session.$id, userId });
 
         // Redirect to home or desired page
-        router.push('/'); // Adjust the path as needed
-
+        router.refresh(); // Adjust the path as needed
+        if (onClose) onClose(); // Close the modal
         // Optionally, show a success message
         // alert(`${values.email} logged in successfully`);
       } catch (error) {
@@ -134,7 +134,7 @@ const LoginForm = () => {
         <button
           type="button"
           className="btn btn-google w-full flex items-center justify-center"
-          onClick={signInWithGoogle}
+         
         >
           {/* Google SVG Icon */}
           <svg

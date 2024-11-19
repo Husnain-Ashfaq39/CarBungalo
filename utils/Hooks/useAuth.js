@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useUserStore from '@/utils/store/userStore';
-import { getCurrentUser } from '@/utils/appwrite/Services/authServices'; // Adjust the import path as needed
+import db from "@/utils/appwrite/Services/dbServices";
 
 const useAuth = () => {
   const router = useRouter();
@@ -23,10 +23,11 @@ const useAuth = () => {
           throw new Error("No session found");
         }
 
-        // Fetch the current user account from Appwrite
-        const currentUser = await getCurrentUser(); // Retrieves the current user
-        console.log('Current User:', currentUser);
-        setUser(currentUser); // Store user data
+        const userData = await db.Users.get(userId); // Adjust based on your dbServices implementation
+        console.log("Fetched user data:", userData);
+
+        // Store user and session data in Zustand store
+        await setUser(userData);
 
         // Assuming session details can be constructed or retrieved
         // If Appwrite provides session details, adjust accordingly

@@ -7,20 +7,20 @@ const tabs = [
   {
     title: "Login",
     id: "home",
-    content: (
+    content: (onClose) => (
       <div className="login_form">
         <p>
           New to Cars.com? <Link href="/signup">Sign up.</Link> Are you a
           dealer?
         </p>
-        <LoginForm />
+        <LoginForm onClose={onClose} />
       </div>
     ),
   },
   {
     title: "Register",
     id: "profile",
-    content: (
+    content: () => (
       <div className="sign_up_form">
         <p>
           Already have a profile? <Link href="/login">Sign in.</Link>
@@ -32,6 +32,14 @@ const tabs = [
 ];
 
 const LoginSignupModal = () => {
+  const handleClose = () => {
+    const modalElement = document.querySelector(".modal");
+    modalElement.classList.remove("show");
+    modalElement.style.display = "none";
+    document.body.classList.remove("modal-open");
+    document.querySelector(".modal-backdrop")?.remove();
+  };
+
   return (
     <div className="modal-dialog modal-dialog-centered">
       <div className="modal-content">
@@ -84,7 +92,7 @@ const LoginSignupModal = () => {
                 aria-labelledby={`${id}-tab`}
                 key={id}
               >
-                <div className="col-lg-12">{content}</div>
+                <div className="col-lg-12">{content(id === "home" ? handleClose : null)}</div>
               </div>
             ))}
           </div>
