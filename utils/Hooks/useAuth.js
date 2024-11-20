@@ -1,4 +1,3 @@
-// src/hooks/useAuth.js
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -7,46 +6,36 @@ import db from "@/utils/appwrite/Services/dbServices";
 
 const useAuth = () => {
   const router = useRouter();
-  const { user, session, setUser, setSession, clearUser } = useUserStore();
+  const { user, session, setUser, setSession } = useUserStore();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const verifySession = async () => {
       try {
-        console.log('Verifying session...');
+        if (typeof window === "undefined") return; // SSR safety
 
-        // Retrieve session data from localStorage
         const sessionId = localStorage.getItem("authToken");
         const userId = localStorage.getItem("userId");
 
-        if (!sessionId || !userId) {
-          throw new Error("No session found");
-        }
+        if (!sessionId || !userId) throw new Error("No session found");
 
-        const userData = await db.Users.get(userId); // Adjust based on your dbServices implementation
-        console.log("Fetched user data:", userData);
-
-        // Store user and session data in Zustand store
-        await setUser(userData);
-
-        // Assuming session details can be constructed or retrieved
-        // If Appwrite provides session details, adjust accordingly
-        setSession({ id: sessionId, userId }); // Store session data
+        const userData = await db.Users.get(userId);
+        setUser(userData);
+        setSession({ id: sessionId, userId });
       } catch (error) {
         console.error('Session verification failed:', error);
-        clearUser();
-        router.push('/home-7'); // Redirect to login if session is invalid
+        router.replace('/');
       } finally {
         setLoading(false);
       }
     };
 
-    if (!user || !session) {
+    if (!user && !session) {
       verifySession();
     } else {
       setLoading(false);
     }
-  }, [user, session, setUser, setSession, clearUser, router]);
+  }, [user, session, router, setSession, setUser]);
 
   return { user, session, loading };
 };

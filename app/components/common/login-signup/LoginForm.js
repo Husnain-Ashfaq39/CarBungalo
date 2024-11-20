@@ -42,11 +42,9 @@ const LoginForm = ({ onClose }) => {
         await setUser(userData);
         await setSession({ id: session.$id, userId });
 
-        // Redirect to home or desired page
-        router.refresh(); // Adjust the path as needed
+     
         if (onClose) onClose(); // Close the modal
-        // Optionally, show a success message
-        // alert(`${values.email} logged in successfully`);
+        window.location.reload();
       } catch (error) {
         console.error("Error during sign-in", error);
         setErrors({ submit: error.message || "Login failed. Please check your credentials." });

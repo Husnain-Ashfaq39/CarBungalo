@@ -44,10 +44,11 @@ const Header = () => {
     fetchLogoData();
   }, []);
 
-  const handleLogout= ()=>{
-    clearUser();
-    signOutUser();
-
+  const handleLogout= async()=>{
+    useUserStore.getState().clearUser();
+    
+    // Perform sign-out and cleanup
+    await signOutUser();
   }
 
   if (loading) {

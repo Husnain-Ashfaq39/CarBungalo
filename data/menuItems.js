@@ -8,7 +8,7 @@ module.exports = [
       // { label: "Home v4", path: "/home-4" },
       // { label: "Home v5", path: "/home-5" },
       // { label: "Home v6", path: "/home-6" },
-      { label: "Home", path: "/home-7" },
+      { label: "Home", path: "/" },
     ],
   },
   {

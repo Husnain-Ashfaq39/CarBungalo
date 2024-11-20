@@ -52,6 +52,8 @@ export const signOutUser = async () => {
     await account.deleteSession('current');
     localStorage.removeItem("authToken");
     localStorage.removeItem("userId");
+    localStorage.removeItem("user-storage");
+    
   } catch (error) {
     throw error;
   }
