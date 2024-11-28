@@ -5,9 +5,18 @@ import { Query } from "appwrite";
 
 export async function registerUser(username, email, password) {
   const user = await account.create("unique()", email, password, username);
-  localStorage.setItem("authToken", user.$id);
+  localStorage.setItem("userId", user.$id);
   return user;
 }
+
+export const handleGoogleSignIn = async () => {
+  try {
+    const redirectUrl = `${window.location.origin}/auth/callback`; // Your callback URL
+    account.createOAuth2Session("google", redirectUrl, redirectUrl);
+  } catch (error) {
+    console.error("Google Sign-In failed:", error);
+  }
+};
 
 /**
  * Signs in a user and retrieves their roles.
