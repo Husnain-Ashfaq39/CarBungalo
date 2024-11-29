@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { registerUser } from "@/utils/appwrite/Services/authServices";
 import db from "@/utils/appwrite/Services/dbServices"; // Ensure the correct path
+import { addUserToCollection } from "@/utils/functions/general";
 
 const SignupForm = () => {
   // Define the validation schema using Yup
@@ -23,26 +24,7 @@ const SignupForm = () => {
       .required("Confirm Password is required"),
   });
 
-  // Function to add user data to the Users collection
-  const addUserToCollection = async (userId, name, email) => {
-    try {
-      const userData = {
-        userId: userId,
-        role: "customer",
-        name: name,
-        email: email,
-        // telephone: "", // Telephone field is omitted as per your requirement
-      };
-
-      // Use the dynamic 'create' method for the Users collection
-      const response = await db.Users.create(userData,userId);
-
-      console.log("User added to Users collection:", response);
-    } catch (error) {
-      console.error("Error adding user to Users collection:", error);
-      throw new Error("Failed to save user data.");
-    }
-  };
+ 
 
   // Initialize Formik
   const formik = useFormik({

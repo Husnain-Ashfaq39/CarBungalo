@@ -11,7 +11,18 @@ export async function registerUser(username, email, password) {
 
 export const handleGoogleSignIn = async () => {
   try {
-    const redirectUrl = `${window.location.origin}/auth/callback`; // Your callback URL
+    
+    try {
+      const currentSession = await account.getSession('current');
+      if (currentSession) {
+        await account.deleteSession('current');
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("userId");
+      }
+    } catch (error) {
+      // No existing session
+    }
+    const redirectUrl = `${window.location.origin}/auth`; // Your callback URL
     account.createOAuth2Session("google", redirectUrl, redirectUrl);
   } catch (error) {
     console.error("Google Sign-In failed:", error);

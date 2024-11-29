@@ -4,7 +4,7 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { signIn } from "@/utils/appwrite/Services/authServices";
+import { handleGoogleSignIn, signIn } from "@/utils/appwrite/Services/authServices";
 import db from "@/utils/appwrite/Services/dbServices"; // Ensure correct path
 import useUserStore from "@/utils/store/userStore"; // Path to your Zustand store
 import { useRouter } from 'next/navigation';
@@ -139,6 +139,7 @@ const LoginForm = ({ onClose }) => {
             className="w-5 h-5 mr-2"
             viewBox="0 0 48 48"
             xmlns="http://www.w3.org/2000/svg"
+            onClick={handleGoogleSignIn}
           >
             <path
               fill="#FFC107"
