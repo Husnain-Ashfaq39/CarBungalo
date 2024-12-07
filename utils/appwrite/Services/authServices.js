@@ -105,3 +105,16 @@ export const sendPasswordRecoveryEmail = async (email) => {
     throw error;
   }
 };
+
+export async function resetPassword(userId, secret, newPassword, confirmPassword) {
+  try {
+    if (newPassword !== confirmPassword) {
+      throw new Error("New password and confirm password do not match.");
+    }
+    await account.updateRecovery(userId, secret, newPassword);
+  } catch (error) {
+    console.error('Reset Password Error:', error);
+    throw error;
+  }
+}
+

@@ -9,8 +9,12 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
     "@faker-js/faker": "^8.0.2",
     "@hookform/resolvers": "^3.9.1",
+    "@mui/icons-material": "^6.1.10",
+    "@mui/material": "^6.1.10",
     "@popperjs/core": "^2.11.7",
     "aos": "^2.3.4",
     "appwrite": "^16.0.2",

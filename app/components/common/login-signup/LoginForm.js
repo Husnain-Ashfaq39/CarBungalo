@@ -4,7 +4,7 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { handleGoogleSignIn, signIn } from "@/utils/appwrite/Services/authServices";
+import { handleGoogleSignIn, signIn, sendPasswordRecoveryEmail } from "@/utils/appwrite/Services/authServices";
 import db from "@/utils/appwrite/Services/dbServices"; // Ensure correct path
 import useUserStore from "@/utils/store/userStore"; // Path to your Zustand store
 import { useRouter } from 'next/navigation';
@@ -13,7 +13,6 @@ import { useRouter } from 'next/navigation';
 const LoginForm = ({ onClose }) => {
   const setUser = useUserStore((state) => state.setUser);
   const setSession = useUserStore((state) => state.setSession);
-  const router = useRouter();
 
   const validationSchema = Yup.object({
     email: Yup.string().required("email or email address is required"),
@@ -54,7 +53,20 @@ const LoginForm = ({ onClose }) => {
     },
   });
 
-
+  const handleForgotPassword = async () => {
+    const email = formik.values.email;
+    if (!email) {
+      alert("Please enter your email address.");
+      return;
+    }
+    try {
+      await sendPasswordRecoveryEmail(email); // Ensure this function is defined in authServices
+      alert("Password reset email sent. Please check your inbox.");
+    } catch (error) {
+      console.error("Error sending password reset email", error);
+      alert("Failed to send password reset email. Please try again.");
+    }
+  };
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -111,6 +123,17 @@ const LoginForm = ({ onClose }) => {
         </div>
       )}
 
+      {/* Forgot Password Button */}
+      <div className="mt-3">
+        <button
+          type="button"
+          className="btn"
+          onClick={handleForgotPassword}
+        >
+          Forgot Password?
+        </button>
+      </div>
+
       {/* Submit Button */}
       <button
         type="submit"
@@ -128,7 +151,7 @@ const LoginForm = ({ onClose }) => {
       </div>
 
       {/* Google Sign-In Button */}
-      <div className="mt-4">
+      <div className="mt-4" onClick={handleGoogleSignIn}>
         <button
           type="button"
           className="btn btn-google w-full flex items-center justify-center"
@@ -139,7 +162,7 @@ const LoginForm = ({ onClose }) => {
             className="w-5 h-5 mr-2"
             viewBox="0 0 48 48"
             xmlns="http://www.w3.org/2000/svg"
-            onClick={handleGoogleSignIn}
+            
           >
             <path
               fill="#FFC107"
