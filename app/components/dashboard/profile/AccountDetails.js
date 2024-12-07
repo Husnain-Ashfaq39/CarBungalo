@@ -56,35 +56,7 @@ const AccountDetails = () => {
             </div>
             {/* End .col */}
 
-            <div className="col-sm-12">
-              <div className="ui_kit_select_search add_new_property mb20">
-                <select
-                  className="form-select form-control"
-                  data-live-search="true"
-                  data-width="100%"
-                >
-                  <option>Type</option>
-                  <option data-tokens="Seller">Seller</option>
-                  <option data-tokens="Purchaser">Purchaser</option>
-                  <option data-tokens="Dealer">Dealer</option>
-                  <option data-tokens="Other">Other</option>
-                </select>
-              </div>
-            </div>
-            {/* End .col */}
-
-            <div className="col-lg-12">
-              <div className="mb20">
-                <textarea
-                  name="form_message"
-                  className="form-control"
-                  rows={10}
-                  placeholder="Type"
-                  defaultValue={""}
-                />
-              </div>
-            </div>
-            {/* End .col */}
+            
 
             <div className="col-lg-12">
               <div className="new_propertyform_btn">

@@ -5,7 +5,7 @@ import React from "react";
 
 const DashboardHeader = () => {
   return (
-    <header className="header-nav menu_style_home_one home3_style dashbord_style main-menu">
+    <header className="header-nav menu_style_home_one home3_style dashbord_style main-menu lg:mt-[-40px]">
       {/* Ace Responsive Menu */}
       <nav className="posr">
         <div className="container-fluid d-flex align-items-center">

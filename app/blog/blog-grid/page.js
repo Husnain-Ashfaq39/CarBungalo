@@ -10,6 +10,7 @@ import React,{useState,useEffect} from "react";
 import BlogCard from "@/app/components/blog/blog-card";
 import db from "@/utils/appwrite/Services/dbServices"; // Adjust the import path as needed
 import storageServices from "@/utils/appwrite/Services/storageServices"; // Adjust the import path as needed
+import Preloader1 from "@/app/components/PreLoader1";
 
 
 const Blog = () => {
@@ -59,7 +60,7 @@ const Blog = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading blog posts...</div>;
+    return <Preloader1/>;
   }
 
   if (error) {
@@ -77,9 +78,7 @@ const Blog = () => {
       </div>
       {/* Sidebar Panel End */}
 
-      {/* header top */}
-      <HeaderTop />
-      {/* End header top */}
+   
 
       {/* Main Header Nav */}
       <DefaultHeader />

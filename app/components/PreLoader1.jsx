@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Car } from 'lucide-react';
 
-export default function Component() {
+export default function Preloader1() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
