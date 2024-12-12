@@ -1,8 +1,8 @@
-
-/* eslint-disable react/prop-types */
 "use client";
 import Image from "next/image";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import VoiceSearch from "./VoiceSearch"; // Import the VoiceSearch component
+import { debounce } from 'lodash'; // Import debounce from lodash
 
 export default function FilterHeader({
   onFilterChange,
@@ -13,12 +13,12 @@ export default function FilterHeader({
   suggestionsError,
   filter
 }) {
-  const options = [
+  const options = useMemo(() => [
     { label: "Default", value: "default" },
     { label: "High to Low", value: "price-desc" },
     { label: "Low to High", value: "price-asc" },
     { label: "New Arrival", value: "recent" },
-  ];
+  ], []);
 
   const [localSearch, setLocalSearch] = useState(searchTerm);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -32,9 +32,14 @@ export default function FilterHeader({
     onFilterChange(e.target.value);
   };
 
+  const debouncedSearchChange = useMemo(() => debounce((value) => {
+    onSearchChange(value);
+  }, 300), [onSearchChange]);
+
   const handleSearchInputChange = (e) => {
-    setLocalSearch(e.target.value);
-    onSearchChange(e.target.value);
+    const value = e.target.value;
+    setLocalSearch(value);
+    debouncedSearchChange(value);
     setShowSuggestions(true);
   };
 
@@ -42,6 +47,12 @@ export default function FilterHeader({
     setLocalSearch(suggestion);
     onSearchChange(suggestion);
     setShowSuggestions(false);
+  };
+
+  const handleVoiceSearch = (query) => {
+    setLocalSearch(query);
+    onSearchChange(query);
+    setShowSuggestions(true);
   };
 
   // Close suggestions when clicking outside
@@ -81,7 +92,6 @@ export default function FilterHeader({
                 if (suggestions.length > 0) setShowSuggestions(true);
               }}
             />
-           
             <img className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" src='/images/icon/search.svg' alt="" />
 
             {/* Suggestions Dropdown */}
@@ -98,20 +108,24 @@ export default function FilterHeader({
                 )}
                 {!isSuggestionsLoading &&
                   suggestions.map((suggestion, index) => (
-                    <div className="flex items-center px-2" key={index}>
-                     <img className=" w-4 h-4" src='/images/icon/search.svg' alt="" />
-                    <li
-                      key={index}
-                      className="p-2 hover:bg-gray-100 cursor-pointer"
-                      onClick={() => handleSuggestionClick(suggestion)}
-                      >
-                      {suggestion}
-                    </li>
+                    <React.Fragment key={index}>
+                      <div className="flex items-center px-2">
+                        <img className=" w-4 h-4" src='/images/icon/search.svg' alt="" />
+                        <li
+                          className="p-2 hover:bg-gray-100 cursor-pointer"
+                          onClick={() => handleSuggestionClick(suggestion)}
+                        >
+                          {suggestion}
+                        </li>
                       </div>
+                    </React.Fragment>
                   ))}
               </ul>
             )}
           </div>
+
+          {/* Voice Search Button */}
+          <VoiceSearch onSearch={handleVoiceSearch} />
 
           <div className="flex items-center space-x-2 w-full sm:w-auto">
             <button className="flex items-center px-4 py-2 border border-gray-300 rounded-md bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">

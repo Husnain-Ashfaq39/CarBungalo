@@ -1,90 +1,116 @@
 "use client";
-import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import React from 'react';
+import Image from 'next/image';
+import { X } from 'lucide-react';
+import useCartStore from '@/utils/store/cartStore';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const CartItems = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      imageSrc: "/images/shop/cart1.png",
-      title: "Silver Heinz Ketchup 350 ml",
-      price: "$298",
-      quantity: 4,
-      total: "$1,298",
-    },
-    {
-      id: 2,
-      imageSrc: "/images/shop/cart2.png",
-      title: "Silver Heinz Ketchup 350 ml",
-      price: "$298",
-      quantity: 4,
-      total: "$1,298",
-    },
-    {
-      id: 3,
-      imageSrc: "/images/shop/cart3.png",
-      title: "Silver Heinz Ketchup 350 ml",
-      price: "$298",
-      quantity: 4,
-      total: "$1,298",
-    },
-  ]);
+  const { items, removeItem, updateQuantity } = useCartStore();
 
-  const handleDeleteItem = (itemId) => {
-    const updatedCartItems = cartItems.filter((item) => item.id !== itemId);
-    setCartItems(updatedCartItems);
+  const handleQuantityChange = (productId, newQuantity) => {
+    if (newQuantity < 1) return;
+    updateQuantity(productId, newQuantity);
   };
 
-  if (cartItems.length === 0) {
-    return <div className="p-5 h4">No items available</div>;
+  if (items.length === 0) {
+    return (
+      <tr>
+        <td colSpan={5} className="text-center py-8">
+          Your cart is empty
+        </td>
+      </tr>
+    );
   }
 
   return (
-    <>
-      {cartItems.map((item) => (
-        <tr key={item.id}>
-          <th className="pl30" scope="row">
-            <ul className="cart_list mt20">
-              <li className="list-inline-item">
-                <Link href="/shop-single">
-                  <Image
-                    width={70}
-                    height={70}
-                    quality={30}
-                    src={item.imageSrc}
-                    alt={`cart${item.id}.png`}
-                  />
-                </Link>
-              </li>
-              <li className="list-inline-item">
-                <Link className="cart_title" href="/shop-single">
-                  {item.title}
-                </Link>
-              </li>
-            </ul>
-          </th>
-          <td>{item.price}</td>
-          <td>
-            <input
-              className="cart_count text-center"
-              placeholder={item.quantity}
-              type="number"
-            />
-          </td>
-          <td>{item.total}</td>
-          <td className="pr25">
-            <div
-              className="pointer"
-              title="Delete"
-              onClick={() => handleDeleteItem(item.id)}
-            >
-              <span className="flaticon-trash" />
+    <AnimatePresence>
+      {items.map((item) => (
+        <motion.tr
+          key={item.id}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, x: -100 }}
+          className="border-bottom"
+        >
+          {/* Product Info */}
+          <td className="pl30 py-4">
+            <div className="cart_list d-flex align-items-center">
+              <div className="cart_img">
+                <Image
+                  width={90}
+                  height={90}
+                  className="object-cover rounded"
+                  src={item.imageSrc}
+                  alt={item.name}
+                />
+              </div>
+              <div className="cart_title ml-3">
+                <h4 className="mb-0">{item.name}</h4>
+              </div>
             </div>
           </td>
-        </tr>
+
+          {/* Price */}
+          <td className="py-4">
+            <div className="cart_list">
+              <div className="cart_price">
+                ${item.discountPrice || item.price}
+              </div>
+            </div>
+          </td>
+
+          {/* Quantity */}
+          <td className="py-4">
+            <div className="cart_list">
+              <div className="quantity-group">
+                <div className="input-group">
+                  <button
+                    className="btn btn-light px-3"
+                    onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                  >
+                    -
+                  </button>
+                  <input
+                    type="number"
+                    className="form-control text-center w-16"
+                    value={item.quantity}
+                    onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value) || 1)}
+                  />
+                  <button
+                    className="btn btn-light px-3"
+                    onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+
+          {/* Subtotal */}
+          <td className="py-4">
+            <div className="cart_list">
+              <div className="cart_price">
+                ${((item.discountPrice || item.price) * item.quantity).toFixed(2)}
+              </div>
+            </div>
+          </td>
+
+          {/* Remove Button */}
+          <td className="py-4">
+            <div className="cart_list">
+              <button
+                onClick={() => removeItem(item.id)}
+                className="cart_close btn-link text-danger bg-transparent border-0"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+          </td>
+        </motion.tr>
       ))}
-    </>
+    </AnimatePresence>
   );
 };
 

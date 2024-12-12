@@ -25,9 +25,7 @@ const Cart = () => {
       </div>
       {/* Sidebar Panel End */}
 
-      {/* header top */}
-      <HeaderTop />
-      {/* End header top */}
+     
 
       {/* Main Header Nav */}
       <DefaultHeader />

@@ -1,5 +1,3 @@
-
-
 export const collections = [
   {
     id: "66fbcf3e001345e8893b",
@@ -41,5 +39,8 @@ export const collections = [
     id: "66fbcd5b002c8f6d7df1",
     name: "Users",
   },
-  
+  {
+    id: "66fc53ab00017224dee4",
+    name: "Wishlist",
+  }
 ];

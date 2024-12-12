@@ -4,7 +4,10 @@ import { isParentActive } from "@/utils/isMenuActive";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { ShoppingCart } from 'lucide-react';
+import useCartStore from '@/utils/store/cartStore';
+import { motion, AnimatePresence } from "framer-motion";
 import {
     ProSidebarProvider,
     Sidebar,
@@ -13,9 +16,20 @@ import {
     SubMenu,
 } from "react-pro-sidebar";
 
-
 const MobileMenu = () => {
     const path = usePathname();
+    const { items } = useCartStore();
+    const cartQuantity = items.length;
+    const [isPulsing, setIsPulsing] = useState(false);
+
+    // Watch for cart changes and trigger pulse animation
+    useEffect(() => {
+        if (cartQuantity > 0) {
+            setIsPulsing(true);
+            const timer = setTimeout(() => setIsPulsing(false), 500);
+            return () => clearTimeout(timer);
+        }
+    }, [cartQuantity]);
 
     const socialLinks = [
         {
@@ -77,6 +91,7 @@ const MobileMenu = () => {
                             </a>
                         </div>
                         {/* End mobile_menu_bar */}
+                        <div className="d-flex justify-content-between align-items-center w-75 px-1">
 
                         <div className="mobile_menu_main_logo">
                             <Image
@@ -88,6 +103,43 @@ const MobileMenu = () => {
                             />
                         </div>
                         {/* End .mobile_menu_main_logo */}
+
+                        {/* Add Cart Icon */}
+                        <div className="mobile_menu_cart_icon">
+                            <motion.div
+                                className="relative"
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                <Link 
+                                    href="/cart" 
+                                    className="relative inline-flex items-center p-2 group"
+                                >
+                                    <motion.div
+                                        animate={isPulsing ? { scale: [1, 1.2, 1] } : {}}
+                                        transition={{ duration: 0.5 }}
+                                    >
+                                        <ShoppingCart 
+                                            className="w-6 h-6 transition-colors duration-300 group-hover:text-primary" 
+                                        />
+                                    </motion.div>
+                                    
+                                    <AnimatePresence>
+                                        {cartQuantity > 0 && (
+                                            <motion.span
+                                                initial={{ scale: 0, opacity: 0 }}
+                                                animate={{ scale: 1, opacity: 1 }}
+                                                exit={{ scale: 0, opacity: 0 }}
+                                                className="absolute -top-1 -right-1 bg-red-500 text-white text-xs min-w-[20px] h-5 flex items-center justify-center rounded-full font-semibold border-2 border-white shadow-md"
+                                            >
+                                                {cartQuantity > 99 ? '99+' : cartQuantity}
+                                            </motion.span>
+                                        )}
+                                    </AnimatePresence>
+                                </Link>
+                            </motion.div>
+                        </div>
+                        </div>
                     </div>
                 </div>
                 {/* /.mobile-menu */}

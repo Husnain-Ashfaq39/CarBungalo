@@ -1,14 +1,36 @@
+'use client';
+import React, { useEffect, useState } from "react";
+import db from "@/utils/appwrite/Services/dbServices";
 import Footer from "@/app/components/common/Footer";
-import DefaultHeader from "../../components/common/DefaultHeader";
-import HeaderSidebar from "../../components/common/HeaderSidebar";
-import MobileMenu from "../../components/common/MobileMenu";
+import DefaultHeader from "@/app/components/common/DefaultHeader";
+import HeaderSidebar from "@/app/components/common/HeaderSidebar";
+import MobileMenu from "@/app/components/common/MobileMenu";
 import LoginSignupModal from "@/app/components/common/login-signup";
 import SingleProDetails from "@/app/components/shop/shop-single/SingleProDetails";
-import ProductContentTabs from "@/app/components/shop/shop-single/pro-tab-content";
 import RelatedProducts from "@/app/components/shop/shop-single/RelatedProducts";
-import React from "react";
+import ProductContentTabs from "@/app/components/shop/shop-single/pro-tab-content/index";
 
-const ShopSingle = () => {
+const ShopSingle = ({ params }) => {
+  const { id } = params;
+  const [productData, setProductData] = useState(null);
+
+  useEffect(() => {
+    const fetchProductData = async () => {
+      try {
+        const data = await db.Products.get(id); // Assuming 'products' is the collection name
+        console.log('data ', data);
+        
+        setProductData(data);
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+    };
+
+    fetchProductData();
+  }, [id]);
+
+  console.log('Product Data:', productData);
+
   return (
     <div className="wrapper">
       <div
@@ -56,9 +78,9 @@ const ShopSingle = () => {
       <section className="shop-single-content pt0 pb40 ovh bgc-f9">
         <div className="container">
           <div className="row">
-            <SingleProDetails />
+            <SingleProDetails productData={productData} />
             <div className="col-lg-12">
-              <ProductContentTabs />
+            <ProductContentTabs description={productData?.description}/>
             </div>
             {/* End .col-12 */}
           </div>
@@ -83,7 +105,7 @@ const ShopSingle = () => {
           <div className="row">
             <div className="col-lg-12">
               <div className="recent_property_slider_home5 dots_none nav_none">
-                <RelatedProducts />
+                <RelatedProducts categoryId={productData?.categoryId} />
               </div>
             </div>
           </div>
