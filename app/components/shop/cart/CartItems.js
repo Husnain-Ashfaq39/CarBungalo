@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { X } from 'lucide-react';
 import useCartStore from '@/utils/store/cartStore';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
+import { ShoppingBag } from 'lucide-react';
 
 const CartItems = () => {
   const { items, removeItem, updateQuantity } = useCartStore();
@@ -16,10 +18,25 @@ const CartItems = () => {
   if (items.length === 0) {
     return (
       <tr>
-        <td colSpan={5} className="text-center py-8">
-          Your cart is empty
-        </td>
-      </tr>
+      <td colSpan={5} className="py-12">
+        <div className="flex flex-col items-center gap-6 p-6">
+          <div className="rounded-full bg-gray-100 p-6">
+            <ShoppingBag className="h-12 w-12 text-gray-400" />
+          </div>
+          <div className="text-center">
+            <h3 className="text-2xl font-semibold tracking-tight text-gray-900">Your cart is empty</h3>
+            <p className="mt-2 text-gray-500">
+              Looks like you haven&apos;t added anything to your cart yet.
+            </p>
+          </div>
+          <div className="checkout_btn">
+        <Link href="/shop" className="btn btn-thm btn-block">
+          <span className="font-semibold text-[#0B2257]">Browse Products</span>
+        </Link>
+      </div>
+        </div>
+      </td>
+    </tr>
     );
   }
 

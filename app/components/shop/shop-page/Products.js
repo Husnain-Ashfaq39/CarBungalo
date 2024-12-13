@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
 import db from "@/utils/appwrite/Services/dbServices";
 import storageServices from "@/utils/appwrite/Services/storageServices";
 import { Query } from "appwrite";
@@ -15,6 +16,7 @@ const Products = ({ filter, categoryFilter, searchTerm, currentPage, itemsPerPag
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const router = useRouter();
 
   const { addItem, items } = useCartStore();
 
@@ -105,6 +107,9 @@ const Products = ({ filter, categoryFilter, searchTerm, currentPage, itemsPerPag
     
     if (isInCart(product.id)) {
       toast.info("Item is already in your cart!");
+      setTimeout(() => {
+        router.push('/cart');
+      }, 1000);
       return;
     }
     
@@ -185,4 +190,3 @@ const Products = ({ filter, categoryFilter, searchTerm, currentPage, itemsPerPag
 };
 
 export default Products;
-
