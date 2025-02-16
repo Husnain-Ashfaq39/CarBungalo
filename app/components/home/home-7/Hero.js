@@ -102,13 +102,13 @@ const Hero = () => {
                         <div className="d-flex justify-content-center">
                           <Link
                             className="btn btn1 btn-thm2 mr20"
-                            href="/listing-single-v2"
+                            href="https://van-3d-configurator.vercel.app/"
                           >
                             Get a Quote
                           </Link>
                           <Link
                             className="btn btn2 btn-thm"
-                            href="/listing-single-v3"
+                            href=""
                           >
                             See Results
                           </Link>

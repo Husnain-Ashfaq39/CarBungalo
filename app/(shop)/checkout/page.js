@@ -1,7 +1,7 @@
+/* eslint-disable react/react-in-jsx-scope */
 import Footer from "@/app/components/common/Footer";
 import DefaultHeader from "../../components/common/DefaultHeader";
 import HeaderSidebar from "../../components/common/HeaderSidebar";
-import HeaderTop from "../../components/common/HeaderTop";
 import MobileMenu from "../../components/common/MobileMenu";
 import LoginSignupModal from "@/app/components/common/login-signup";
 import BillingMain from "@/app/components/shop/checkout";
@@ -23,9 +23,6 @@ const Checkout = () => {
       </div>
       {/* Sidebar Panel End */}
 
-      {/* header top */}
-      <HeaderTop />
-      {/* End header top */}
 
       {/* Main Header Nav */}
       <DefaultHeader />

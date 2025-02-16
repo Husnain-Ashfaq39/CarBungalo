@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import Footer from "@/app/components/common/Footer";
 import DefaultHeader from "../../components/common/DefaultHeader";
 import HeaderSidebar from "../../components/common/HeaderSidebar";
@@ -93,9 +94,7 @@ const Cart = () => {
                   <div className="shopping_cart_tabs">
                     <div className="shopping_cart_table">
                       <div className="checkout_form mt30">
-                        <div className="checkout_coupon">
-                          <Coupon />
-                        </div>
+                       
                       </div>
                     </div>
                   </div>

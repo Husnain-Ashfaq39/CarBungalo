@@ -43,14 +43,6 @@ module.exports = [
         label: "Blog Grid",
         path: "/blog/blog-grid",
       },
-      {
-        label: "Blog List",
-        path: "/blog/blog-list",
-      },
-      {
-        label: "Blog Single",
-        path: "/blog-single",
-      },
     ],
   },
   {

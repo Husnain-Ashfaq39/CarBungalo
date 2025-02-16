@@ -42,5 +42,9 @@ export const collections = [
   {
     id: "66fc53ab00017224dee4",
     name: "Wishlist",
+  },
+  {
+    id: "6722fe8200213131b4e5",
+    name: "Vouchers",
   }
 ];
